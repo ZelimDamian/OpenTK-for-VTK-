@@ -6,7 +6,7 @@ namespace VTKInt.Textures
 {
 	public class Texture
 	{
-
+		public string Name;
 	}
 
 	public class TextureLoader
@@ -17,7 +17,7 @@ namespace VTKInt.Textures
 		{
 		}
 
-		public Texture GetTexture(string name)
+		public static Texture GetTexture(string name)
 		{
 			foreach(Texture texture in textures)
 				if(texture.Name == name)
@@ -26,9 +26,9 @@ namespace VTKInt.Textures
 			return LoadTexture(name);
 		}
 
-		public Texture LoadTexture(string name)
+		public static Texture LoadTexture(string name)
 		{
-
+			return new Texture();
 		}
 	}
 }

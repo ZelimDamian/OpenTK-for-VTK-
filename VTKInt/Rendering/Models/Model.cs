@@ -17,7 +17,7 @@ namespace VTKInt.Models
 		{
 			foreach(Mesh mesh in meshes)
 			{
-				SetVBOs(ref mesh, ref shader);
+				SetVBOs(mesh, shader);
 				GL.DrawElements(BeginMode.Triangles, mesh.ElementsData.Length, DrawElementsType.UnsignedInt, mesh.ElementsData);
 			}
 		}
