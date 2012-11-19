@@ -39,6 +39,7 @@
     <Reference Include="OpenTK.GLControl">
       <HintPath>..\..\..\ComputerGraphicsStuff\opentk-2010-10-06\opentk\Binaries\OpenTK\Debug\OpenTK.GLControl.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="VTKInt.cs" />
