@@ -50,6 +50,7 @@
     <Compile Include="Rendering\Textures\Texture.cs" />
     <Compile Include="Rendering\Materials\Material.cs" />
     <Compile Include="Rendering\Shaders\Shader.cs" />
+    <Compile Include="Interface\Numpad.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Rendering\" />
@@ -60,5 +61,10 @@
     <Folder Include="Rendering\Textures\" />
     <Folder Include="Scene\" />
     <Folder Include="Rendering\Shaders\" />
+    <Folder Include="Content\" />
+    <Folder Include="Content\Models\" />
+    <Folder Include="Content\Textures\" />
+    <Folder Include="Content\Materials\" />
+    <Folder Include="Content\Shaders\" />
   </ItemGroup>
 </Project>

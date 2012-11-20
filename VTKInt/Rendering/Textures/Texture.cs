@@ -7,11 +7,13 @@ namespace VTKInt.Textures
 	public class Texture
 	{
 		public string Name;
+		public Materials.Material.TexType Type;
+		public int id;
 	}
 
 	public class TextureLoader
 	{
-		List<Texture> textures = new List<Texture>();
+		public static List<Texture> textures = new List<Texture>();
 
 		public TextureLoader ()
 		{

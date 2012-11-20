@@ -1,4 +1,5 @@
 using System;
+using System.Xml;
 using System.Collections.Generic;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
@@ -230,8 +231,8 @@ namespace VTKInt
 			GL.CompileShader(vertexShaderHandle);
 			GL.CompileShader(fragmentShaderHandle);
 
-			Debug.WriteLine(GL.GetShaderInfoLog(vertexShaderHandle));
-			Debug.WriteLine(GL.GetShaderInfoLog(fragmentShaderHandle));
+			Console.WriteLine(GL.GetShaderInfoLog(vertexShaderHandle));
+			Console.WriteLine(GL.GetShaderInfoLog(fragmentShaderHandle));
 			
 			// Create program
 			shaderProgramHandle = GL.CreateProgram();
@@ -241,7 +242,7 @@ namespace VTKInt
 			
 			GL.LinkProgram(shaderProgramHandle);
 			
-			Debug.WriteLine(GL.GetProgramInfoLog(shaderProgramHandle));
+			Console.WriteLine(GL.GetProgramInfoLog(shaderProgramHandle));
 
 			target.handle = shaderProgramHandle;
 			
@@ -263,28 +264,16 @@ namespace VTKInt
 		private string readFile(string filename)
 		{
 			string line;
-			StringBuilder wholeFile = new StringBuilder();
+			string wholeFile = "";
 			
 			System.IO.StreamReader file =
 				new System.IO.StreamReader(filename);
 			while ((line = file.ReadLine()) != null)
 			{
-				if (line.Contains(includeMarker))
-				{
-					string[] sline = line.Split(' ');
-					appendSnip(sline, ref wholeFile);
-				}
-				else
-				{
-					wholeFile.AppendLine(line);
-				}
+					wholeFile += line + Environment.NewLine;
 			}
-			
-			wholeFile.Replace(varMarker, "");
-			wholeFile.Replace(functionsMarker, "");
-			
-			//Console.WriteLine(wholeFile.ToString());
-			return wholeFile.ToString();
+
+			return wholeFile;
 		}
 	}
 }

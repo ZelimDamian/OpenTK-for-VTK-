@@ -15,9 +15,11 @@ namespace VTKInt.Models
 
 		public override void Render()
 		{
+			SetMaterial(material);
+
 			foreach(Mesh mesh in meshes)
 			{
-				SetVBOs(mesh, shader);
+				SetVBOs(mesh, material.shader);
 				GL.DrawElements(BeginMode.Triangles, mesh.ElementsData.Length, DrawElementsType.UnsignedInt, mesh.ElementsData);
 			}
 		}

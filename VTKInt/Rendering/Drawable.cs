@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using VTKInt.Structues;
+using VTKInt.Materials;
 
 namespace VTKInt.Rendering
 {
 	public class Drawable
 	{
 		protected List<Mesh> meshes = new List<Mesh>();
-		protected Shader shader;
+		protected Material material;
 
 		public Drawable ()
 		{
@@ -57,6 +58,16 @@ namespace VTKInt.Rendering
 				GL.BindBuffer(BufferTarget.ElementArrayBuffer, curMesh.ElementsVBOHandle);
 				
 				GL.BindVertexArray(0);
+		}
+
+		public virtual void SetMaterial(Materials.Material material)
+		{
+			int texunit = 0;
+			int handle = material.shader.handle;
+
+			GL.UseProgram(handle);
+
+			material.activateTextures();
 		}
 
 		public virtual void Render()

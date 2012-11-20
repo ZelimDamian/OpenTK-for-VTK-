@@ -2,6 +2,7 @@ using System;
 using System.Xml;
 using System.Collections.Generic;
 using OpenTK;
+using OpenTK.Graphics.OpenGL;
 using VTKInt.Textures;
 
 namespace VTKInt.Materials
@@ -33,8 +34,20 @@ namespace VTKInt.Materials
 			definfoTexture
 		}
 
+		public void activateTextures()
+		{
+			for(int texUnit = 0; texUnit < textures.Length; texUnit++)
+			{
+				GL.ActiveTexture(TextureUnit.Texture0 + texUnit);
+				GL.BindTexture(TextureTarget.Texture2D, textures[texUnit].id);
+				string texName = textures[texUnit].Type.ToString();
+				GL.Uniform1(GL.GetUniformLocation(shader.handle, texName), texUnit);
+			}
+		}
+
 		public void SetTexture(TexType type, Texture texture)
 		{
+			texture.Type = type;
 			textures[(int)type] = texture;
 		}
 	}
@@ -108,11 +121,11 @@ namespace VTKInt.Materials
 						}
 					}
 
-					materials.Add(material);
-
-					return material;
 				}
-			}
+			materials.Add(material);
+			
+			return material;
+		}
 	}
 }
 

@@ -8,7 +8,10 @@ namespace VTKInt
 		{
 		}
 
+		public virtual void Load(string filename)
+		{
 
+		}
 	}
 }
 

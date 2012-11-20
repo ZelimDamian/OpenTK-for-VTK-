@@ -23,6 +23,10 @@ namespace VTKInt.Structues
 
 		public int[]	 ElementsData;
 
+		public List<Vector3> PositionDataList,
+							 NormalDataList;
+		public List<Vector2> TexCoordDataList;
+
 		public string Directory;
 
 		public string Name;
@@ -56,15 +60,15 @@ namespace VTKInt.Structues
 
 			mesh.Name = name;
 
-			LoadMesh(mesh);
+			LoadMesh(ref mesh);
+
+			return mesh;
 		}
 
 		private void LoadMesh(ref Mesh curMesh)
 		{
 			if(curMesh.Name.Contains(".obj"))
-				LoadObj(curMesh);
-
-			return curMesh;
+				LoadObj(ref curMesh);
 		}
 		
 		public void generateVBO(ref Mesh target)
@@ -98,12 +102,10 @@ namespace VTKInt.Structues
 
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, target.ElementsVBOHandle);
 			GL.BufferData(BufferTarget.ElementArrayBuffer,
-			              new IntPtr(sizeof(uint) * target.indicesVboData.Length),
-			              target.indicesVboData, BufferUsageHint.StaticDraw);
+			              new IntPtr(sizeof(uint) * target.ElementsData.Length),
+			              target.ElementsData, BufferUsageHint.StaticDraw);
 
 			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-
-			target.containsVbo = true;
 		}
 		
 		public void LoadObj(ref Mesh target)
@@ -125,25 +127,25 @@ namespace VTKInt.Structues
 				
 				if (sline[0] == "v")
 				{
-					float X = float.Parse(sline[1], nfi);
-					float Y = float.Parse(sline[2], nfi);
-					float Z = float.Parse(sline[3], nfi);
+					float X = float.Parse(sline[1]);
+					float Y = float.Parse(sline[2]);
+					float Z = float.Parse(sline[3]);
 					PositionDataList.Add(new Vector3(X, Y, Z));
 				}
 				
 				if (sline[0] == "vn")
 				{
-					float X = float.Parse(sline[1], nfi);
-					float Y = float.Parse(sline[2], nfi);
-					float Z = float.Parse(sline[3], nfi);
+					float X = float.Parse(sline[1]);
+					float Y = float.Parse(sline[2]);
+					float Z = float.Parse(sline[3]);
 					NormalDataList.Add(new Vector3(X, Y, Z));
 					
 				}
 				
 				if (sline[0] == "vt")
 				{
-					float X = float.Parse(sline[1], nfi);
-					float Y = 1-float.Parse(sline[2], nfi);
+					float X = float.Parse(sline[1]);
+					float Y = 1-float.Parse(sline[2]);
 					TexCoordDataList.Add(new Vector2(X, Y));
 					
 				}
@@ -388,31 +390,28 @@ namespace VTKInt.Structues
 				indicesVboData[i] = newIndiceList[i];
 			}
 			
-			//calculate a bounding Sphere
-			float sphere = 0;
-			foreach (var vec in PositionData)
-			{
-				float length = vec.Length;
-				if (length > sphere)
-					sphere = length;
-			}
+//			//calculate a bounding Sphere
+//			float sphere = 0;
+//			foreach (var vec in PositionData)
+//			{
+//				float length = vec.Length;
+//				if (length > sphere)
+//					sphere = length;
+//			}
 			
 			//deleting unneded
 			target.PositionDataList = null;
 			target.NormalDataList = null;
 			target.TangentData = null;
-			target.indicesVboData = null;
-			
-			target.boneWeightList = null;
-			target.boneIdList = null;
-			
+			target.ElementsData = null;
+
 			//returning mesh info ... DONE :D
 			target.PositionData = PositionData;
 			target.NormalData = NormalData;
 			target.TangentData = TangentData;
 			target.TexCoordData = TexCoordData;
-			target.indicesVboData = indicesVboData;
-			target.boundingSphere = sphere;
+			target.ElementsData = indicesVboData;
+			//target.boundingSphere = sphere;
 		}
 		
 		private void removeTemp(ref List<Face> FaceList)
