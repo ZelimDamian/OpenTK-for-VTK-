@@ -7,7 +7,7 @@ using VTKInt.Materials;
 
 namespace VTKInt.Rendering
 {
-	public class Drawable
+	public class Drawable : VTKObject
 	{
 		protected List<Mesh> meshes = new List<Mesh>();
 		protected Material material;
@@ -56,23 +56,26 @@ namespace VTKInt.Rendering
 				
 				
 				GL.BindBuffer(BufferTarget.ElementArrayBuffer, curMesh.ElementsVBOHandle);
-				
-				GL.BindVertexArray(0);
 		}
 
-		public virtual void SetMaterial(Materials.Material material)
+		public virtual void AddMesh(Mesh mesh)
 		{
-			int texunit = 0;
+			this.meshes.Add(mesh);
+		}
+
+		public virtual void AddMaterial(Material material)
+		{
+			this.material = material;
+		}
+
+		public virtual void SetUpMaterial(Materials.Material material)
+		{
 			int handle = material.shader.handle;
 
 			GL.UseProgram(handle);
 
+			material.activateUniforms();
 			material.activateTextures();
-		}
-
-		public virtual void Render()
-		{
-
 		}
 	}
 }

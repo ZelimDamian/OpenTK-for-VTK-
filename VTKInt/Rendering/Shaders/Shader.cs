@@ -159,7 +159,7 @@ namespace VTKInt
 	public class ShaderLoader
 	{
 		public static List<Shader> shaders = new List<Shader>();
-		public static string ContentDirectory = "Content/Shaders/";
+		public static string ContentDirectory = "../../Content/Shaders/";
 
 		public static Shader GetShader(string name)
 		{
@@ -255,7 +255,7 @@ namespace VTKInt
 
 		public void getHandles(ref Shader target)
 		{
-			int shaderProgramHandle = target.handle;
+			//int shaderProgramHandle = target.handle;
 			
 			// Set uniforms
 			target.generateLocations();

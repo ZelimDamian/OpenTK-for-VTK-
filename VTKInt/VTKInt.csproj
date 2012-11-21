@@ -40,6 +40,7 @@
       <HintPath>..\..\..\ComputerGraphicsStuff\opentk-2010-10-06\opentk\Binaries\OpenTK\Debug\OpenTK.GLControl.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="VTKInt.cs" />
@@ -51,6 +52,11 @@
     <Compile Include="Rendering\Materials\Material.cs" />
     <Compile Include="Rendering\Shaders\Shader.cs" />
     <Compile Include="Interface\Numpad.cs" />
+    <Compile Include="Scene\VTKObject.cs" />
+    <Compile Include="Rendering\Lights\Light.cs" />
+    <Compile Include="Cameras\Camera.cs" />
+    <Compile Include="Cameras\CameraFPS.cs" />
+    <Compile Include="Interface\Emblem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Rendering\" />
@@ -66,5 +72,20 @@
     <Folder Include="Content\Textures\" />
     <Folder Include="Content\Materials\" />
     <Folder Include="Content\Shaders\" />
+    <Folder Include="Rendering\Lights\" />
+    <Folder Include="Cameras\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\Models\VTK_Emblem.obj" />
+    <None Include="Content\Scene.xml" />
+    <None Include="Content\Shaders\composite.fs" />
+    <None Include="Content\Shaders\composite.vs" />
+    <None Include="Content\Shaders\composite.xsp" />
+    <None Include="Content\Materials\VTK_Emblem.xmf" />
+    <None Include="Content\Shaders\VTK_Emblem.fs" />
+    <None Include="Content\Shaders\VTK_Emblem.xsp" />
+    <None Include="Content\Shaders\VTK_Emblem.vs" />
+    <None Include="Content\Shaders\unlitGeneric.vs" />
+    <None Include="Content\Textures\VTK_Emblem.png" />
   </ItemGroup>
 </Project>

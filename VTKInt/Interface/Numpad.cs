@@ -1,12 +1,13 @@
 using System;
 using OpenTK;
 
-namespace VTKInt
+namespace VTKInt.Interface
 {
 	public class Numpad : Models.Model
 	{
 		public Numpad ()
 		{
+
 		}
 	}
 }

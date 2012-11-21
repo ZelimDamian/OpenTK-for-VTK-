@@ -27,7 +27,7 @@ namespace VTKInt.Structues
 							 NormalDataList;
 		public List<Vector2> TexCoordDataList;
 
-		public string Directory;
+		public const string Directory = "../../Content/Models/";
 
 		public string Name;
 
@@ -45,7 +45,7 @@ namespace VTKInt.Structues
 	{
 		public static List<Mesh> meshes = new List<Mesh>();
 
-		public Mesh GetMesh(string name)
+		public static Mesh GetMesh(string name)
 		{
 			foreach(Mesh mesh in meshes)
 				if(mesh.Name == name)
@@ -54,7 +54,7 @@ namespace VTKInt.Structues
 			return LoadMesh(name);
 		}
 
-		private Mesh LoadMesh(string name)
+		private static Mesh LoadMesh(string name)
 		{
 			Mesh mesh = new Mesh();
 
@@ -65,13 +65,13 @@ namespace VTKInt.Structues
 			return mesh;
 		}
 
-		private void LoadMesh(ref Mesh curMesh)
+		private static void LoadMesh(ref Mesh curMesh)
 		{
 			if(curMesh.Name.Contains(".obj"))
 				LoadObj(ref curMesh);
 		}
 		
-		public void generateVBO(ref Mesh target)
+		public static void generateVBO(ref Mesh target)
 		{
 			GL.GenBuffers(1, out target.NormalVboHandle);
 			GL.GenBuffers(1, out target.PositionVboHandle);
@@ -108,13 +108,13 @@ namespace VTKInt.Structues
 			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 		}
 		
-		public void LoadObj(ref Mesh target)
+		public static void LoadObj(ref Mesh target)
 		{
 			List<Vector3> PositionDataList = new List<Vector3> { };
 			List<Vector3> NormalDataList = new List<Vector3> { };
 			List<Vector2> TexCoordDataList = new List<Vector2> { };
 			List<Face> FaceList = new List<Face> { };
-			List<Vertex> FpIndiceList = new List<Vertex> { };
+			//List<Vertex> FpIndiceList = new List<Vertex> { };
 			
 			// Read the file and display it line by line.
 			string line;
@@ -198,7 +198,7 @@ namespace VTKInt.Structues
 		
 		}
 		
-		public void parseFaceList(ref Mesh target, bool genNormal)
+		public static void parseFaceList(ref Mesh target, bool genNormal)
 		{
 			List<Vector3> PositionDataList = target.PositionDataList;
 			List<Vector3> NormalDataList = target.NormalDataList;
@@ -414,7 +414,7 @@ namespace VTKInt.Structues
 			//target.boundingSphere = sphere;
 		}
 		
-		private void removeTemp(ref List<Face> FaceList)
+		private static void removeTemp(ref List<Face> FaceList)
 		{
 			int i = 0;
 			while (i < FaceList.Count)
@@ -427,7 +427,7 @@ namespace VTKInt.Structues
 			}
 		}
 		
-		private void convertToTri(ref List<Face> FaceList)
+		private static void convertToTri(ref List<Face> FaceList)
 		{
 			int faces = FaceList.Count;
 			for (int i = 0; i < faces; i++)

@@ -34,10 +34,24 @@ namespace VTKInt.Materials
 			definfoTexture
 		}
 
+		public void activateUniforms()
+		{
+			Vector3 eye = SceneManager.Camera.Eye;
+			Matrix4 view = SceneManager.Camera.View;
+			Matrix4 proj = SceneManager.Camera.Projection;
+
+			shader.insertUniform(Shader.Uniform.in_eyepos, ref eye);
+			shader.insertUniform(Shader.Uniform.projection_matrix, ref proj);
+			shader.insertUniform(Shader.Uniform.modelview_matrix, ref view);
+		}
+
 		public void activateTextures()
 		{
 			for(int texUnit = 0; texUnit < textures.Length; texUnit++)
 			{
+				if(textures[texUnit] == null)
+					return;
+
 				GL.ActiveTexture(TextureUnit.Texture0 + texUnit);
 				GL.BindTexture(TextureTarget.Texture2D, textures[texUnit].id);
 				string texName = textures[texUnit].Type.ToString();
@@ -56,7 +70,7 @@ namespace VTKInt.Materials
 	{
 		public static List<Material> materials = new List<Material>();
 
-		public static string ContentDir = "Content/Materials/";
+		public static string ContentDir = "../../Content/Materials/";
 
 		public MaterialLoader ()
 		{
