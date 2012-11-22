@@ -207,6 +207,20 @@ namespace VTKInt
 		{
 			Camera.Aspect = (float)Window.Width / Window.Height;
 		}
+
+		public static Ray GetMouseRay()
+		{
+			int mouseX = Window.Mouse.X;
+			int mouseY = Window.Mouse.Y;
+
+			Vector3 sourceNear = new Vector3(mouseX, mouseY, 0.0f);
+			Vector3 sourceFar  = new Vector3(mouseX, mouseY, 1.0f);
+
+			Vector3 near = VTKMath.Unproject(sourceNear, Camera.Projection, Camera.View, Matrix4.Identity, (float)Window.Width, (float)Window.Height);
+			Vector3 far  = VTKMath.Unproject(sourceFar , Camera.Projection, Camera.View, Matrix4.Identity, (float)Window.Width, (float)Window.Height);
+
+			return new Ray(Camera.Eye, Vector3.Normalize(far - near));
+		}
 	}
 }
 

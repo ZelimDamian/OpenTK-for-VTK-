@@ -5,6 +5,14 @@ namespace VTKInt.Cameras
 {
 	public class CameraFPS : Camera
 	{
+		float movementSpeed = 10.0f;
+
+		public float MovementSpeed
+		{
+			get { return movementSpeed; }
+			set { movementSpeed = value; }
+		}
+
 		public CameraFPS () : base()
 		{
 
@@ -17,7 +25,7 @@ namespace VTKInt.Cameras
 
 			if(SceneManager.Window.Mouse[OpenTK.Input.MouseButton.Left])
 			{
-				Origin = Origin + Up * yDelta * ySens;
+				Origin = Origin - Up * yDelta * ySens;
 				Origin = Origin + Right * xDelta * xSens;
 			}
 
@@ -30,27 +38,31 @@ namespace VTKInt.Cameras
 			get { return SceneManager.Window.Keyboard; }
 		}
 
+		private void MoveByVector(Vector3 vector)
+		{
+			vector = vector * movementSpeed * SceneManager.FrameTime;
+
+			Eye = Eye + vector;
+			Origin = Origin + vector;
+		}
+
 		public override void Update ()
 		{
 			if(Key[OpenTK.Input.Key.W])
 			{
-				Eye = Eye + Forward * SceneManager.FrameTime;
-				Origin = Origin + Forward * SceneManager.FrameTime;
+				MoveByVector(Forward);
 			}
 			else if(Key[OpenTK.Input.Key.S])
 			{
-				Eye = Eye - Forward * SceneManager.FrameTime;
-				Origin = Origin - Forward * SceneManager.FrameTime;
+				MoveByVector(-Forward);
 			}
 			else if(Key[OpenTK.Input.Key.D])
 			{
-				Eye = Eye + Right * SceneManager.FrameTime;
-				Origin = Origin + Right * SceneManager.FrameTime;
+				MoveByVector(Right);
 			}
 			else if(Key[OpenTK.Input.Key.A])
 			{
-				Eye = Eye - Right * SceneManager.FrameTime;
-				Origin = Origin - Right * SceneManager.FrameTime;
+				MoveByVector(-Right);
 			}
 
 			UpdateMouse();

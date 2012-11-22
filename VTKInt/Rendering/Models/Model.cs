@@ -24,6 +24,10 @@ namespace VTKInt.Models
 				if(tmpMesh != mesh)
 					SetVBOs(mesh, material.shader);
 
+				Matrix4 meshTransform = mesh.Transform;
+
+				material.shader.insertUniform(Shader.Uniform.mesh_matrix, ref meshTransform);
+
 				GL.DrawElements(BeginMode.Triangles, mesh.ElementsData.Length, DrawElementsType.UnsignedInt, IntPtr.Zero);
 
 				tmpMesh = mesh;

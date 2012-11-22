@@ -29,13 +29,11 @@ namespace VTKInt
 
 		protected override void OnRenderFrame (FrameEventArgs e)
 		{
-			if(!Keyboard.KeyRepeat)
-				this.Title = "";
-			else
-				this.Title = "FPS: " + (1 / e.Time).ToString("000.00");
+			Title = "FPS: " + (1 / e.Time).ToString("000.00");
 
 			Keyboard.KeyUp += delegate(object sender, OpenTK.Input.KeyboardKeyEventArgs ev) {
-				Keyboard.KeyRepeat = false;
+				if(ev.Key == OpenTK.Input.Key.F) 
+					justToggled = false;
 			};
 
 			SceneManager.FrameTime = (float) e.Time;
@@ -62,12 +60,19 @@ namespace VTKInt
 			base.OnUpdateFrame (e);
 		}
 
+		bool justToggled = false;
+
 		public void ToggleFullScreen()
 		{
+			if(justToggled)
+				return;
+
 			if (WindowState != WindowState.Fullscreen)
 				WindowState = WindowState.Fullscreen;
 			else
 				WindowState = WindowState.Normal;
+
+			justToggled = true;
 		}
 
 		[STAThread]

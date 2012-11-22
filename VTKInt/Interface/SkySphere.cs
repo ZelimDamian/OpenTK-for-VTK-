@@ -9,6 +9,12 @@ namespace VTKInt.Interface
 		public SkySphere ()
 		{
 		}
+
+		public override void Update ()
+		{
+			Position = SceneManager.Camera.Eye;
+			base.Update ();
+		}
 	}
 }
 

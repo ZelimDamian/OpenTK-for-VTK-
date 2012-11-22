@@ -59,6 +59,11 @@
     <Compile Include="Interface\Emblem.cs" />
     <Compile Include="Rendering\FramebufferCreator.cs" />
     <Compile Include="Interface\SkySphere.cs" />
+    <Compile Include="Structures\BoundingBox.cs" />
+    <Compile Include="Structures\Ray.cs" />
+    <Compile Include="Structures\Plane.cs" />
+    <Compile Include="Interface\ITouchable.cs" />
+    <Compile Include="VTKMath.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Rendering\" />
@@ -80,9 +85,6 @@
   <ItemGroup>
     <None Include="Content\Models\VTK_Emblem.obj" />
     <None Include="Content\Scene.xml" />
-    <None Include="Content\Shaders\composite.fs" />
-    <None Include="Content\Shaders\composite.vs" />
-    <None Include="Content\Shaders\composite.xsp" />
     <None Include="Content\Materials\VTK_Emblem.xmf" />
     <None Include="Content\Shaders\VTK_Emblem.fs" />
     <None Include="Content\Shaders\VTK_Emblem.xsp" />
@@ -92,5 +94,7 @@
     <None Include="Content\Shaders\Sky.xsp" />
     <None Include="Content\Shaders\Sky.vs" />
     <None Include="Content\Materials\Sky.xmf" />
+    <None Include="Content\Models\FieldElement.obj" />
+    <None Include="Content\Models\Sky.obj" />
   </ItemGroup>
 </Project>

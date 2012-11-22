@@ -5,7 +5,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace VTKInt.Structues
 {
-	public class Mesh
+	public class Mesh : VTKObject
 	{
 		public List<Face> FaceList;
 

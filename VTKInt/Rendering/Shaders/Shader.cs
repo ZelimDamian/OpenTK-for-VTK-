@@ -29,7 +29,8 @@ namespace VTKInt
 			model_matrix,
 			rotation_matrix2,
 			model_matrix2,
-			
+			mesh_matrix,
+
 			in_eyepos,
 			in_time,
 			in_pass,

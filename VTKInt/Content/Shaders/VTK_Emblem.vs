@@ -4,6 +4,7 @@ uniform mat4 projection_matrix;
 uniform mat4 modelview_matrix;
 uniform mat4 model_matrix;
 uniform mat4 rotation_matrix;
+uniform mat4 mesh_matrix;
 
 uniform vec3 in_light;
 uniform vec3 in_eyepos;
@@ -25,7 +26,7 @@ varying float v_depth;
 
 void main(void)
 {
-	g_pos = model_matrix * vec4(in_position, 1);
+	g_pos = model_matrix * mesh_matrix * vec4(in_position, 1);
 	
 	gl_Position = projection_matrix * modelview_matrix * g_pos;
 	

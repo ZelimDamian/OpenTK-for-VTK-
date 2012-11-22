@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<scene><emblem mesh="VTK_Emblem.obj" material="VTK_Emblem.xmf">
-<camera eye = "0.0 0.0 -10.0" origin = "0.0 0.0 0.0" />
-<sky mesh="Sky.obj" material="Sky.xmf"></sky>
-</emblem>
+<scene>
+	<emblem mesh="VTK_Emblem.obj" material="VTK_Emblem.xmf" />
+	<camera eye = "0.0 0.0 -10.0" origin = "0.0 0.0 0.0" />
+	<sky mesh="Sky.obj" material="Sky.xmf" />
+	<field mesh="FieldElement.obj" x="40" z="20" />
 </scene>
