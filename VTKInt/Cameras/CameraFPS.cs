@@ -10,6 +10,21 @@ namespace VTKInt.Cameras
 
 		}
 
+		public void UpdateMouse()
+		{
+			float xDelta = (float)(SceneManager.Window.Mouse.X - mouseXOld);
+			float yDelta = (float)(SceneManager.Window.Mouse.Y - mouseYOld);
+
+			if(SceneManager.Window.Mouse[OpenTK.Input.MouseButton.Left])
+			{
+				Origin = Origin + Up * yDelta * ySens;
+				Origin = Origin + Right * xDelta * xSens;
+			}
+
+			mouseXOld = SceneManager.Window.Mouse.X;
+			mouseYOld = SceneManager.Window.Mouse.Y;
+		}
+
 		private OpenTK.Input.KeyboardDevice Key
 		{
 			get { return SceneManager.Window.Keyboard; }
@@ -19,24 +34,26 @@ namespace VTKInt.Cameras
 		{
 			if(Key[OpenTK.Input.Key.W])
 			{
-				Eye += Forward * SceneManager.FrameTime;
-				Origin += Forward * SceneManager.FrameTime;
+				Eye = Eye + Forward * SceneManager.FrameTime;
+				Origin = Origin + Forward * SceneManager.FrameTime;
 			}
 			else if(Key[OpenTK.Input.Key.S])
 			{
-				Eye -= Forward * SceneManager.FrameTime;
-				Origin -= Forward * SceneManager.FrameTime;
+				Eye = Eye - Forward * SceneManager.FrameTime;
+				Origin = Origin - Forward * SceneManager.FrameTime;
 			}
 			else if(Key[OpenTK.Input.Key.D])
 			{
-				Eye += Right * SceneManager.FrameTime;
-				Origin += Right * SceneManager.FrameTime;
+				Eye = Eye + Right * SceneManager.FrameTime;
+				Origin = Origin + Right * SceneManager.FrameTime;
 			}
 			else if(Key[OpenTK.Input.Key.A])
 			{
-				Eye -= Right * SceneManager.FrameTime;
-				Origin -= Right * SceneManager.FrameTime;
+				Eye = Eye - Right * SceneManager.FrameTime;
+				Origin = Origin - Right * SceneManager.FrameTime;
 			}
+
+			UpdateMouse();
 
 			base.Update ();
 		}

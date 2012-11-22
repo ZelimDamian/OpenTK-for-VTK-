@@ -5,7 +5,10 @@ namespace VTKInt.Cameras
 {
 	public class Camera : VTKObject
 	{
-		int mouseXOld, mouseYOld;
+		protected int mouseXOld, mouseYOld;
+		protected float xSens = 0.1f,
+						ySens = 0.1f;
+
 
 		Matrix4 view,
 				projection;
@@ -14,10 +17,54 @@ namespace VTKInt.Cameras
 				eye,
 				up = Vector3.UnitY;
 
-		public float 	fov,
-						aspect,
-						near,
-						far;
+		public float 	fov = (float)MathHelper.DegreesToRadians(60.0f),
+						aspect = 1.0f,
+						near = 0.001f,
+						far = 1000.0f;
+
+		public float Fov
+		{
+			get { return fov; }
+			set {
+				if(fov == value)
+					return;
+				fov = value;
+				UpdateProjMatrix();
+			}
+		}
+
+		public float Aspect
+		{
+			get { return aspect; }
+			set {
+				if(aspect == value)
+					return;
+				aspect = value;
+				UpdateProjMatrix();
+			}
+		}
+
+		public float Near
+		{
+			get { return near; }
+			set {
+				if(near == value)
+					return;
+				near = value;
+				UpdateProjMatrix();
+			}
+		}
+
+		public float Far
+		{
+			get { return far; }
+			set {
+				if(far == value)
+					return;
+				far = value;
+				UpdateProjMatrix();
+			}
+		}
 
 		public Vector3 Origin
 		{
@@ -66,33 +113,36 @@ namespace VTKInt.Cameras
 		public Vector3 Forward
 		{
 			get {
-				return Transform.Column2.Xyz;
+				return -View.Column2.Xyz;
 			}
 		}
 
 		public Vector3 Up
 		{
 			get {
-				return Transform.Column1.Xyz;
+				return View.Column1.Xyz;
 			}
 		}
 
 		public Vector3 Right
 		{
 			get {
-				return Transform.Column0.Xyz;
+				return View.Column0.Xyz;
 			}
 		}
 
 		public override void Update ()
 		{
-			//UpdateViewMatrix();
 			base.Update ();
 		}
 
 		public Camera ()
 		{
+			mouseXOld = SceneManager.Window.Mouse.X;
+			mouseYOld = SceneManager.Window.Mouse.Y;
 
+			UpdateProjMatrix();
+			UpdateViewMatrix();
 		}
 	}
 }

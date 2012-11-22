@@ -1,4 +1,5 @@
 using System;
+using OpenTK;
 using VTKInt.Models;
 
 namespace VTKInt.Interface
@@ -12,6 +13,7 @@ namespace VTKInt.Interface
 
 		public override void Update ()
 		{
+			Orientation = Orientation * Quaternion.FromAxisAngle(Vector3.UnitY, SceneManager.FrameTime * (float)Math.PI / 2.0f);
 			base.Update ();
 		}
 	}

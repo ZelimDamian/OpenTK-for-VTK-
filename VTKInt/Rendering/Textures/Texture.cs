@@ -50,10 +50,6 @@ namespace VTKInt.Textures
 			
 			bmp.UnlockBits(bmp_data);
 
-			// We haven't uploaded mipmaps, so disable mipmapping (otherwise the texture will not appear).
-			// On newer video cards, we can use GL.GenerateMipmaps() or GL.Ext.GenerateMipmaps() to create
-			// mipmaps automatically. In that case, use TextureMinFilter.LinearMipmapLinear to enable them.
-			
 			GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
 

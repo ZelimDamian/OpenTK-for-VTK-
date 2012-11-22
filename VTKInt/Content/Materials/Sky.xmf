@@ -1,0 +1,3 @@
+<material shader="Sky.xsp">
+	<textures base="Sky.png" />
+</material>

@@ -57,6 +57,8 @@
     <Compile Include="Cameras\Camera.cs" />
     <Compile Include="Cameras\CameraFPS.cs" />
     <Compile Include="Interface\Emblem.cs" />
+    <Compile Include="Rendering\FramebufferCreator.cs" />
+    <Compile Include="Interface\SkySphere.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Rendering\" />
@@ -85,7 +87,10 @@
     <None Include="Content\Shaders\VTK_Emblem.fs" />
     <None Include="Content\Shaders\VTK_Emblem.xsp" />
     <None Include="Content\Shaders\VTK_Emblem.vs" />
-    <None Include="Content\Shaders\unlitGeneric.vs" />
     <None Include="Content\Textures\VTK_Emblem.png" />
+    <None Include="Content\Shaders\Sky.fs" />
+    <None Include="Content\Shaders\Sky.xsp" />
+    <None Include="Content\Shaders\Sky.vs" />
+    <None Include="Content\Materials\Sky.xmf" />
   </ItemGroup>
 </Project>

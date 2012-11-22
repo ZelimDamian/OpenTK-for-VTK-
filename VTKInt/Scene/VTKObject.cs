@@ -19,10 +19,10 @@ namespace VTKInt
 
 		}
 
-		Vector3 position;
-		Vector3 scale;
-		Quaternion orientation;
-		Matrix4 transform; 
+		protected Vector3 position = new Vector3();
+		protected Vector3 scale = new Vector3(1.0f, 1.0f, 1.0f);
+		protected Quaternion orientation = Quaternion.Identity;
+		protected Matrix4 transform = Matrix4.Identity; 
 
 		public Vector3 Position
 		{

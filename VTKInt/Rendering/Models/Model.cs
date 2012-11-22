@@ -29,6 +29,11 @@ namespace VTKInt.Models
 				tmpMesh = mesh;
 			}
 		}
+
+		public override void Update ()
+		{
+			base.Update ();
+		}
 	}
 }
 

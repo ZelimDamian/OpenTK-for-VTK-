@@ -70,11 +70,12 @@ namespace VTKInt.Rendering
 
 		public virtual void SetUpMaterial(Materials.Material material)
 		{
-			int handle = material.shader.handle;
-
-			GL.UseProgram(handle);
+			GL.UseProgram(material.shader.handle);
 
 			material.activateUniforms();
+
+			material.shader.insertUniform(Shader.Uniform.model_matrix, ref transform);
+
 			material.activateTextures();
 		}
 	}

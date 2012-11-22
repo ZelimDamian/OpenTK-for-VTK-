@@ -2,6 +2,7 @@ using System;
 using System.Xml;
 using System.Collections.Generic;
 using OpenTK;
+using OpenTK.Graphics.OpenGL;
 using VTKInt.Cameras;
 using VTKInt.Models;
 using VTKInt.Interface;
@@ -28,6 +29,9 @@ namespace VTKInt
 
 		public void Load(string filename = SceneFile)
 		{
+
+			InitilizeGL();
+
 			XmlReader sceneReader = XmlTextReader.Create(filename);
 
 			while(sceneReader.Read ())
@@ -82,6 +86,62 @@ namespace VTKInt
 					sceneReader.MoveToElement();
 					this.objects.Add(model);
 				}
+
+				if(sceneReader.Name == "emblem" && sceneReader.HasAttributes)
+				{
+					Emblem model = new Emblem();
+					
+					while(sceneReader.MoveToNextAttribute())
+					{
+						if(sceneReader.Name == "mesh")
+						{
+							model.AddMesh(MeshLoader.GetMesh(sceneReader.Value));
+						}
+						else if(sceneReader.Name == "material")
+						{
+							model.AddMaterial(MaterialLoader.GetMaterial(sceneReader.Value));
+						}
+						else if(sceneReader.Name == "position")
+						{
+							model.Position = ParseVector(sceneReader.Value);
+						}
+						else if(sceneReader.Name == "orientation")
+						{
+							model.Orientation = ParseQuaternion(sceneReader.Value);
+						}
+					}
+					
+					sceneReader.MoveToElement();
+					this.objects.Add(model);
+				}
+
+				if(sceneReader.Name == "sky" && sceneReader.HasAttributes)
+				{
+					SkySphere model = new SkySphere();
+					
+					while(sceneReader.MoveToNextAttribute())
+					{
+						if(sceneReader.Name == "mesh")
+						{
+							model.AddMesh(MeshLoader.GetMesh(sceneReader.Value));
+						}
+						else if(sceneReader.Name == "material")
+						{
+							model.AddMaterial(MaterialLoader.GetMaterial(sceneReader.Value));
+						}
+						else if(sceneReader.Name == "position")
+						{
+							model.Position = ParseVector(sceneReader.Value);
+						}
+						else if(sceneReader.Name == "orientation")
+						{
+							model.Orientation = ParseQuaternion(sceneReader.Value);
+						}
+					}
+					
+					sceneReader.MoveToElement();
+					this.objects.Add(model);
+				}
 			}
 		}
 
@@ -96,9 +156,7 @@ namespace VTKInt
 		private Quaternion ParseQuaternion(string str)
 		{
 			string [] angles = str.Split(' ');
-			return Quaternion.FromAxisAngle(new Vector3(float.Parse(angles[0]),
-			                                                         float.Parse(angles[1]),
-			                                                         float.Parse(angles[2])),
+			return Quaternion.FromAxisAngle(ParseVector(str),
 			                                MathHelper.DegreesToRadians(float.Parse(angles[3])));
 		}
 
@@ -120,6 +178,15 @@ namespace VTKInt
 			if(SceneManager.Window.Keyboard[OpenTK.Input.Key.Escape])
 				SceneManager.Window.Exit();
 		}
+
+		public void InitilizeGL()
+		{
+			GL.Enable(EnableCap.DepthTest);
+			GL.DepthFunc(DepthFunction.Lequal);
+
+			GL.Enable(EnableCap.Blend);
+			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+		}
 	}
 
 	public static class SceneManager
@@ -131,10 +198,15 @@ namespace VTKInt
 
 		public static Camera Camera
 		{
-			get {return Scene.Camera; }
+			get { return Scene.Camera; }
 		}
 
 		public static Scene Scene = new Scene();
+
+		public static void OnResize()
+		{
+			Camera.Aspect = (float)Window.Width / Window.Height;
+		}
 	}
 }
 
