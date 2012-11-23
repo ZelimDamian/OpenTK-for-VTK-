@@ -9,7 +9,7 @@ namespace VTKInt.Rendering
 {
 	public class Drawable : VTKObject
 	{
-		protected List<Mesh> meshes = new List<Mesh>();
+		protected List<Component> components = new List<Component>();
 		protected Material material;
 
 		public Drawable ()
@@ -58,9 +58,14 @@ namespace VTKInt.Rendering
 				GL.BindBuffer(BufferTarget.ElementArrayBuffer, curMesh.ElementsVBOHandle);
 		}
 
-		public virtual void AddMesh(Mesh mesh)
+		public virtual void AddComponent(Mesh mesh)
 		{
-			this.meshes.Add(mesh);
+			this.components.Add(new Component(mesh));
+		}
+
+		public virtual void AddComponent(Component component)
+		{
+			this.components.Add(component);
 		}
 
 		public virtual void AddMaterial(Material material)
@@ -74,8 +79,11 @@ namespace VTKInt.Rendering
 
 			material.activateUniforms();
 
-			material.shader.insertUniform(Shader.Uniform.model_matrix, ref transform);
+			Vector3 lightPos = new Vector3(10.0f, 100.0f, 10.0f);
 
+			material.shader.insertUniform(Shader.Uniform.model_matrix, ref transform);
+			material.shader.insertUniform(Shader.Uniform.in_light, ref lightPos);
+			
 			material.activateTextures();
 		}
 	}

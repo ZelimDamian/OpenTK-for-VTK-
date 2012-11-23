@@ -64,6 +64,8 @@
     <Compile Include="Structures\Plane.cs" />
     <Compile Include="Interface\ITouchable.cs" />
     <Compile Include="VTKMath.cs" />
+    <Compile Include="Interface\Field.cs" />
+    <Compile Include="Structures\Component.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Rendering\" />
@@ -96,5 +98,9 @@
     <None Include="Content\Materials\Sky.xmf" />
     <None Include="Content\Models\FieldElement.obj" />
     <None Include="Content\Models\Sky.obj" />
+    <None Include="Content\Materials\Field.xmf" />
+    <None Include="Content\Shaders\FieldElement.fs" />
+    <None Include="Content\Shaders\FieldElement.vs" />
+    <None Include="Content\Shaders\FieldElement.xsp" />
   </ItemGroup>
 </Project>

@@ -5,7 +5,7 @@ namespace VTKInt.Structues
 {
 	public class BoundingBox
 	{
-		Vector3 min, max;
+		Vector3 min = Vector3.Zero, max = Vector3.Zero;
 
 		public Vector3 Min
 		{
@@ -37,6 +37,16 @@ namespace VTKInt.Structues
 				min = cent - value;
 			}
 			get { return (max - min) / 2.0f; }
+		}
+
+		public BoundingBox ()
+		{
+		}
+
+		public BoundingBox(BoundingBox box)
+		{
+			this.min = box.Min;
+			this.max = box.Max;
 		}
 
 		public BoundingBox (Vector3 min, Vector3 max)

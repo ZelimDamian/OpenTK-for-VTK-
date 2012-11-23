@@ -29,7 +29,6 @@ namespace VTKInt
 
 		public void Load(string filename = SceneFile)
 		{
-
 			InitilizeGL();
 
 			XmlReader sceneReader = XmlTextReader.Create(filename);
@@ -67,7 +66,7 @@ namespace VTKInt
 					{
 						if(sceneReader.Name == "mesh")
 						{
-							model.AddMesh(MeshLoader.GetMesh(sceneReader.Value));
+							model.AddComponent(MeshLoader.GetMesh(sceneReader.Value));
 						}
 						else if(sceneReader.Name == "material")
 						{
@@ -95,7 +94,7 @@ namespace VTKInt
 					{
 						if(sceneReader.Name == "mesh")
 						{
-							model.AddMesh(MeshLoader.GetMesh(sceneReader.Value));
+							model.AddComponent(MeshLoader.GetMesh(sceneReader.Value));
 						}
 						else if(sceneReader.Name == "material")
 						{
@@ -123,7 +122,7 @@ namespace VTKInt
 					{
 						if(sceneReader.Name == "mesh")
 						{
-							model.AddMesh(MeshLoader.GetMesh(sceneReader.Value));
+							model.AddComponent(MeshLoader.GetMesh(sceneReader.Value));
 						}
 						else if(sceneReader.Name == "material")
 						{
@@ -139,6 +138,37 @@ namespace VTKInt
 						}
 					}
 					
+					sceneReader.MoveToElement();
+					this.objects.Add(model);
+				}
+
+				if(sceneReader.Name == "field" && sceneReader.HasAttributes)
+				{
+					String meshName = "", materialName = "";
+					int x = 0, y = 0;
+
+					while(sceneReader.MoveToNextAttribute())
+					{
+						if(sceneReader.Name == "mesh")
+						{
+							meshName = sceneReader.Value;
+						}
+						else if(sceneReader.Name == "material")
+						{
+							materialName = sceneReader.Value;
+						}
+						else if(sceneReader.Name == "x")
+						{
+							x = int.Parse(sceneReader.Value);
+						}
+						else if(sceneReader.Name == "z")
+						{
+							y = int.Parse(sceneReader.Value);
+						}
+					}
+
+					Field model = new Field(x, y, meshName, materialName);
+
 					sceneReader.MoveToElement();
 					this.objects.Add(model);
 				}

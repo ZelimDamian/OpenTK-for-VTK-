@@ -40,6 +40,7 @@ namespace VTKInt
 			in_rendersize,
 			in_lightambient,
 			in_lightsun,
+			in_light,
 			//shadow_quality,
 			
 			in_particlepos,

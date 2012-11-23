@@ -24,18 +24,19 @@ namespace VTKInt
 		protected Quaternion orientation = Quaternion.Identity;
 		protected Matrix4 transform = Matrix4.Identity; 
 
-		public Vector3 Position
+		public virtual Vector3 Position
 		{
 			get { return position; }
 			set {
 				if(position == value)
 					return;
+
 				position = value;
 				UpdateTransform();
 			}
 		}
 
-		public Vector3 Scale
+		public virtual Vector3 Scale
 		{
 			set {
 				if(scale == value)
@@ -46,7 +47,7 @@ namespace VTKInt
 			get { return scale; }
 		}
 
-		public Quaternion Orientation
+		public virtual Quaternion Orientation
 		{
 			get { return orientation; }
 			set {
@@ -57,7 +58,7 @@ namespace VTKInt
 			}
 		}
 
-		public Matrix4 Transform
+		public virtual Matrix4 Transform
 		{
 			get { return transform; }
 			set { transform = value; }
@@ -65,7 +66,7 @@ namespace VTKInt
 
 		public void UpdateTransform()
 		{
-			transform = Matrix4.CreateTranslation(position) * Matrix4.Rotate(orientation) * Matrix4.Scale(scale);
+			transform = Matrix4.Rotate(orientation) * Matrix4.CreateTranslation(position) * Matrix4.Scale(scale);
 		}
 	}
 }

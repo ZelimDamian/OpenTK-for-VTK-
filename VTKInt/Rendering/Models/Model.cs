@@ -19,18 +19,18 @@ namespace VTKInt.Models
 
 			Mesh tmpMesh = null;
 
-			foreach(Mesh mesh in meshes)
+			foreach(Component comp in components)
 			{
-				if(tmpMesh != mesh)
-					SetVBOs(mesh, material.shader);
+				if(tmpMesh != comp.Mesh)
+					SetVBOs(comp.Mesh, material.shader);
 
-				Matrix4 meshTransform = mesh.Transform;
+				Matrix4 meshTransform = comp.Transform;
 
 				material.shader.insertUniform(Shader.Uniform.mesh_matrix, ref meshTransform);
 
-				GL.DrawElements(BeginMode.Triangles, mesh.ElementsData.Length, DrawElementsType.UnsignedInt, IntPtr.Zero);
+				GL.DrawElements(BeginMode.Triangles, comp.Mesh.ElementsData.Length, DrawElementsType.UnsignedInt, IntPtr.Zero);
 
-				tmpMesh = mesh;
+				tmpMesh = comp.Mesh;
 			}
 		}
 
