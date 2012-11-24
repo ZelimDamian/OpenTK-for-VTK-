@@ -25,7 +25,7 @@ namespace VTKInt.Cameras
 
 			if(SceneManager.Window.Mouse[OpenTK.Input.MouseButton.Left])
 			{
-				Origin = Origin - Up * yDelta * ySens;
+				Origin = Origin + Up * yDelta * ySens;
 				Origin = Origin + Right * xDelta * xSens;
 			}
 
@@ -63,6 +63,14 @@ namespace VTKInt.Cameras
 			else if(Key[OpenTK.Input.Key.A])
 			{
 				MoveByVector(-Right);
+			}
+			else if(Key[OpenTK.Input.Key.LControl])
+			{
+				MoveByVector(Up);
+			}
+			else if(Key[OpenTK.Input.Key.Space])
+			{
+				MoveByVector(-Up);
 			}
 
 			UpdateMouse();

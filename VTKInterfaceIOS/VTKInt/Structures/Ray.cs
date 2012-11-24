@@ -16,15 +16,11 @@ namespace VTKInt.Structues
 
 		public Vector3 Direction
 		{
-			get {
-				if(direction.Length != 1.0f)
-					direction.Normalize();
-				return direction;
-			}
+			get {return direction;}
 			set {direction = value;}
 		}
 
-		public Vector3? GetIntersectionPoint(Plane plane)
+		public Vector3 GetIntersectionPoint(Plane plane)
 		{
 			float t = 0.0f;
 
@@ -37,13 +33,13 @@ namespace VTKInt.Structues
 			return origin + direction * t;
 		}
 
-		public Vector3? GetIntersectionPoint(BoundingBox box)
+		public Vector3 GetIntersectionPoint(BoundingBox box)
 		{
 			float? t = GetIntersectionParam(box);
 			if(t!=null)
 				return Origin + Direction * (float)t;
 			else
-				return null;
+				return Vector3.Zero;
 		}
 
 		public float? GetIntersectionParam(BoundingBox box)

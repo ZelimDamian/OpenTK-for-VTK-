@@ -1,0 +1,3 @@
+<material shader="VTK_Emblem.xsp">
+	<textures base="VTK_Emblem.png" />
+</material>

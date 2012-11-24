@@ -8,6 +8,7 @@ using VTKInt.Models;
 using VTKInt.Interface;
 using VTKInt.Structues;
 using VTKInt.Materials;
+using VTKInt.Animations;
 
 namespace VTKInt
 {
@@ -146,7 +147,7 @@ namespace VTKInt
 				{
 					String meshName = "", materialName = "";
 					int x = 0, y = 0;
-
+					
 					while(sceneReader.MoveToNextAttribute())
 					{
 						if(sceneReader.Name == "mesh")
@@ -166,11 +167,37 @@ namespace VTKInt
 							y = int.Parse(sceneReader.Value);
 						}
 					}
-
+					
 					Field model = new Field(x, y, meshName, materialName);
-
+					
 					sceneReader.MoveToElement();
 					this.objects.Add(model);
+				}
+
+				if(sceneReader.Name == "numPad" && sceneReader.HasAttributes)
+				{
+					String materialName = "";
+					float width = 0.0f, height = 0.0f;
+					
+					while(sceneReader.MoveToNextAttribute())
+					{
+						if(sceneReader.Name == "material")
+						{
+							materialName = sceneReader.Value;
+						}
+						else if(sceneReader.Name == "width")
+						{
+							width = float.Parse(sceneReader.Value);
+						}
+						else if(sceneReader.Name == "height")
+						{
+							height = float.Parse(sceneReader.Value);
+						}
+					}
+					
+					this.objects.Add(new Numpad(materialName, width, height));
+
+					sceneReader.MoveToElement();
 				}
 			}
 		}
@@ -204,6 +231,8 @@ namespace VTKInt
 			{
 				obj.Update();
 			}
+
+			AnimationManager.Update();
 
 			if(SceneManager.Window.Keyboard[OpenTK.Input.Key.Escape])
 				SceneManager.Window.Exit();

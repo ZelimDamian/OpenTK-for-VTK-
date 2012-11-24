@@ -51,7 +51,7 @@ namespace VTKInt.Interface
 
 		public override void Update ()
 		{
-			if(SceneManager.Window.Mouse[OpenTK.Input.MouseButton.Right])
+			//if(SceneManager.Window.Mouse[OpenTK.Input.MouseButton.Right])
 				Touch(SceneManager.GetMouseRay());
 
 			for ( int i = 0, l = DimX * DimZ; i < l; i ++ ) {

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{31361091-30EA-48F9-A3D2-2FC038CD5C04}</ProjectGuid>
+    <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>VTKInterfaceIOS</RootNamespace>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <AssemblyName>VTKInterfaceIOS</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <MtouchDebug>True</MtouchDebug>
+    <MtouchProfiling>True</MtouchProfiling>
+    <MtouchLink>None</MtouchLink>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <MtouchLink>None</MtouchLink>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\iPhone\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchDebug>True</MtouchDebug>
+    <MtouchProfiling>True</MtouchProfiling>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\iPhone\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <CodesignKey>iPhone Developer</CodesignKey>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\iPhone\Ad-Hoc</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <BuildIpa>True</BuildIpa>
+    <CodesignKey>iPhone Distribution</CodesignKey>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\iPhone\AppStore</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <CodesignKey>iPhone Distribution</CodesignKey>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="monotouch" />
+    <Reference Include="OpenTK" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Info.plist" />
+    <None Include="Content\.DS_Store" />
+    <None Include="Content\Scene.xml" />
+    <None Include="Content\Materials\Field.xmf" />
+    <None Include="Content\Materials\Sky.xmf" />
+    <None Include="Content\Materials\VTK_Emblem.xmf" />
+    <None Include="Content\Models\.DS_Store" />
+    <None Include="Content\Models\FieldElement.obj" />
+    <None Include="Content\Models\Sky.obj" />
+    <None Include="Content\Models\VTK_Emblem.obj" />
+    <None Include="Content\Models\digits\.DS_Store" />
+    <None Include="Content\Models\digits\0.obj" />
+    <None Include="Content\Models\digits\1.obj" />
+    <None Include="Content\Models\digits\2.obj" />
+    <None Include="Content\Models\digits\3.obj" />
+    <None Include="Content\Models\digits\4.obj" />
+    <None Include="Content\Models\digits\5.obj" />
+    <None Include="Content\Models\digits\6.obj" />
+    <None Include="Content\Models\digits\7.obj" />
+    <None Include="Content\Models\digits\8.obj" />
+    <None Include="Content\Models\digits\9.obj" />
+    <None Include="Content\Shaders\FieldElement.fs" />
+    <None Include="Content\Shaders\FieldElement.vs" />
+    <None Include="Content\Shaders\FieldElement.xsp" />
+    <None Include="Content\Shaders\Sky.fs" />
+    <None Include="Content\Shaders\Sky.vs" />
+    <None Include="Content\Shaders\Sky.xsp" />
+    <None Include="Content\Shaders\VTK_Emblem.fs" />
+    <None Include="Content\Shaders\VTK_Emblem.vs" />
+    <None Include="Content\Shaders\VTK_Emblem.xsp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Main.cs" />
+    <Compile Include="AppDelegate.cs" />
+    <Compile Include="OpenGLViewController.cs" />
+    <Compile Include="EAGLView.cs" />
+    <Compile Include="GameWindow.cs" />
+    <Compile Include="VTKInt\VTKInt.cs" />
+    <Compile Include="VTKInt\VTKMath.cs" />
+    <Compile Include="VTKInt\Cameras\Camera.cs" />
+    <Compile Include="VTKInt\Cameras\CameraFPS.cs" />
+    <Compile Include="VTKInt\Interface\Emblem.cs" />
+    <Compile Include="VTKInt\Interface\Field.cs" />
+    <Compile Include="VTKInt\Interface\ITouchable.cs" />
+    <Compile Include="VTKInt\Interface\Numpad.cs" />
+    <Compile Include="VTKInt\Interface\SkySphere.cs" />
+    <Compile Include="VTKInt\Rendering\Drawable.cs" />
+    <Compile Include="VTKInt\Rendering\FramebufferCreator.cs" />
+    <Compile Include="VTKInt\Rendering\Lights\Light.cs" />
+    <Compile Include="VTKInt\Rendering\Materials\Material.cs" />
+    <Compile Include="VTKInt\Rendering\Models\Model.cs" />
+    <Compile Include="VTKInt\Rendering\Shaders\Shader.cs" />
+    <Compile Include="VTKInt\Rendering\Textures\Texture.cs" />
+    <Compile Include="VTKInt\Scene\Scene.cs" />
+    <Compile Include="VTKInt\Scene\VTKObject.cs" />
+    <Compile Include="VTKInt\Structures\BoundingBox.cs" />
+    <Compile Include="VTKInt\Structures\Component.cs" />
+    <Compile Include="VTKInt\Structures\Mesh.cs" />
+    <Compile Include="VTKInt\Structures\Plane.cs" />
+    <Compile Include="VTKInt\Structures\Ray.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterfaceDefinition Include="OpenGLViewController.xib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Shader.fsh" />
+    <Content Include="Shader.vsh" />
+    <Content Include="Content\Textures\Sky.png" />
+    <Content Include="Content\Textures\VTK_Emblem.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Content\" />
+    <Folder Include="VTKInt\" />
+  </ItemGroup>
+</Project>

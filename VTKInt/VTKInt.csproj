@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -41,41 +41,46 @@
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="VTKInt.cs" />
     <Compile Include="Rendering\Drawable.cs" />
     <Compile Include="Rendering\Models\Model.cs" />
     <Compile Include="Structures\Mesh.cs" />
-    <Compile Include="Scene\Scene.cs" />
-    <Compile Include="Rendering\Textures\Texture.cs" />
     <Compile Include="Rendering\Materials\Material.cs" />
-    <Compile Include="Rendering\Shaders\Shader.cs" />
-    <Compile Include="Interface\Numpad.cs" />
-    <Compile Include="Scene\VTKObject.cs" />
     <Compile Include="Rendering\Lights\Light.cs" />
     <Compile Include="Cameras\Camera.cs" />
     <Compile Include="Cameras\CameraFPS.cs" />
-    <Compile Include="Interface\Emblem.cs" />
     <Compile Include="Rendering\FramebufferCreator.cs" />
-    <Compile Include="Interface\SkySphere.cs" />
     <Compile Include="Structures\BoundingBox.cs" />
     <Compile Include="Structures\Ray.cs" />
     <Compile Include="Structures\Plane.cs" />
-    <Compile Include="Interface\ITouchable.cs" />
     <Compile Include="VTKMath.cs" />
-    <Compile Include="Interface\Field.cs" />
     <Compile Include="Structures\Component.cs" />
+    <Compile Include="Rendering\Texturing\Texture.cs" />
+    <Compile Include="Rendering\Shading\Shader.cs" />
+    <Compile Include="Scenes\Scene.cs" />
+    <Compile Include="Scenes\VTKObject.cs" />
+    <Compile Include="Interfaces\Numpad.cs" />
+    <Compile Include="Interfaces\Emblem.cs" />
+    <Compile Include="Interfaces\SkySphere.cs" />
+    <Compile Include="Interfaces\ITouchable.cs" />
+    <Compile Include="Interfaces\Field.cs" />
+    <Compile Include="Web\WebClient.cs" />
+    <Compile Include="Web\WebManager.cs" />
+    <Compile Include="Interfaces\DigitComponent.cs" />
+    <Compile Include="Animations\Animation.cs" />
+    <Compile Include="Animations\AnimationManager.cs" />
+    <Compile Include="Animations\Animatee.cs" />
+    <Compile Include="Animations\IAnimatable.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Rendering\" />
     <Folder Include="Structures\" />
-    <Folder Include="Interface\" />
     <Folder Include="Rendering\Models\" />
     <Folder Include="Rendering\Materials\" />
-    <Folder Include="Rendering\Textures\" />
-    <Folder Include="Scene\" />
-    <Folder Include="Rendering\Shaders\" />
     <Folder Include="Content\" />
     <Folder Include="Content\Models\" />
     <Folder Include="Content\Textures\" />
@@ -83,6 +88,12 @@
     <Folder Include="Content\Shaders\" />
     <Folder Include="Rendering\Lights\" />
     <Folder Include="Cameras\" />
+    <Folder Include="Rendering\Texturing\" />
+    <Folder Include="Rendering\Shading\" />
+    <Folder Include="Scenes\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Web\" />
+    <Folder Include="Animations\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Models\VTK_Emblem.obj" />
@@ -102,5 +113,19 @@
     <None Include="Content\Shaders\FieldElement.fs" />
     <None Include="Content\Shaders\FieldElement.vs" />
     <None Include="Content\Shaders\FieldElement.xsp" />
+    <None Include="Content\Materials\Digit.xmf" />
+    <None Include="Content\Shaders\Digit.fs" />
+    <None Include="Content\Shaders\Digit.vs" />
+    <None Include="Content\Shaders\Digit.xsp" />
+    <None Include="Content\Models\0.obj" />
+    <None Include="Content\Models\1.obj" />
+    <None Include="Content\Models\2.obj" />
+    <None Include="Content\Models\3.obj" />
+    <None Include="Content\Models\4.obj" />
+    <None Include="Content\Models\5.obj" />
+    <None Include="Content\Models\6.obj" />
+    <None Include="Content\Models\7.obj" />
+    <None Include="Content\Models\8.obj" />
+    <None Include="Content\Models\9.obj" />
   </ItemGroup>
 </Project>

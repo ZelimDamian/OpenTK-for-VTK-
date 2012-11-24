@@ -120,7 +120,7 @@ namespace VTKInt.Cameras
 		public Vector3 Up
 		{
 			get {
-				return -View.Column1.Xyz;
+				return View.Column1.Xyz;
 			}
 		}
 
@@ -138,8 +138,8 @@ namespace VTKInt.Cameras
 
 		public Camera ()
 		{
-			mouseXOld = SceneManager.Window.Mouse.X;
-			mouseYOld = SceneManager.Window.Mouse.Y;
+//			mouseXOld = SceneManager.Window.Mouse.X;
+//			mouseYOld = SceneManager.Window.Mouse.Y;
 
 			UpdateProjMatrix();
 			UpdateViewMatrix();

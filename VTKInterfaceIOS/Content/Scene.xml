@@ -3,6 +3,5 @@
 	<emblem mesh="VTK_Emblem.obj" material="VTK_Emblem.xmf" />
 	<camera eye = "0.0 0.0 -10.0" origin = "0.0 0.0 0.0" />
 	<sky mesh="Sky.obj" material="Sky.xmf" />
-	<field mesh="FieldElement.obj" material="Field.xmf" x="40" z="30" />numPad
-	<numPad material="Digit.xmf" width="2.0" height="3.0" />
+	<field mesh="FieldElement.obj" material="Field.xmf" x="40" z="20" />
 </scene>

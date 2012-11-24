@@ -42,10 +42,6 @@ namespace VTKInt.Structues
 
 		public BoundingBox Box;
 		public Mesh Mesh;
-		public String Name
-		{
-			get { return Mesh.Name.Replace(".obj", ""); }
-		}
 	}
 }
 
