@@ -66,7 +66,10 @@ namespace VTKInt
 
 		public void UpdateTransform()
 		{
-			transform = Matrix4.Rotate(orientation) * Matrix4.Scale(scale) * Matrix4.CreateTranslation(position);
+			transform =
+				Matrix4.Rotate(orientation) *
+				Matrix4.Scale(scale) *
+				Matrix4.CreateTranslation(position);
 		}
 	}
 }

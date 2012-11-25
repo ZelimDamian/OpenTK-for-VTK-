@@ -1,13 +1,14 @@
 using System;
 using System.Threading;
 using OpenTK;
+using OpenTK.Graphics;
 using OpenGL = OpenTK.Graphics.OpenGL;
 
 namespace VTKInt
 {
 	public class VTKInt : OpenTK.GameWindow
 	{
-		public VTKInt () : base(800, 600, new OpenTK.Graphics.GraphicsMode(16, 32))
+		public VTKInt () : base(980, 600, new GraphicsMode(32, 32, 0, 2))
 		{
 			SceneManager.Window = this;
 		}

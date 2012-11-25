@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <scene>
-	<emblem mesh="VTK_Emblem.obj" material="VTK_Emblem.xmf" />
 	<camera eye = "0.0 0.0 -10.0" origin = "0.0 0.0 0.0" />
 	<sky mesh="Sky.obj" material="Sky.xmf" />
 	<field mesh="FieldElement.obj" material="Field.xmf" x="40" z="30" />numPad
 	<numPad material="Digit.xmf" width="2.0" height="3.0" />
+	<emblems distanceBetween = "4.0" position = "25.0 6.0 20.0">
+		<emblem mesh="VTK_Emblem.obj" material="VTK_Emblem.xmf" />
+		<emblem mesh="4.obj" material="VTK_Emblem.xmf" />
+		<emblem mesh="0.obj" material="VTK_Emblem.xmf" />
+		<emblem mesh="9.obj" material="VTK_Emblem.xmf" />
+	</emblems>
 </scene>

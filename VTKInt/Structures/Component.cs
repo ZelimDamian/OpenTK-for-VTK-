@@ -40,12 +40,31 @@ namespace VTKInt.Structues
 			}
 		}
 
+		public override Quaternion Orientation {
+			get {
+				return base.Orientation;
+			}
+			set {
+				base.Orientation = value;
+			}
+		}
+
+		public override Vector3 Scale {
+			get {
+				return base.Scale;
+			}
+			set {
+				Box.Scale(value);
+				base.Scale = value;
+			}
+		}
+
 		public BoundingBox Box;
 		public Mesh Mesh;
-		public String Name
+
+		public String NameClean
 		{
 			get { return Mesh.Name.Replace(".obj", ""); }
 		}
 	}
 }
-

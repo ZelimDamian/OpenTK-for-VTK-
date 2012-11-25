@@ -19,8 +19,8 @@ namespace VTKInt.Cameras
 
 		public float 	fov = (float)MathHelper.DegreesToRadians(60.0f),
 						aspect = 1.0f,
-						near = 0.001f,
-						far = 1000.0f;
+						near = 0.1f,
+						far = 500.0f;
 
 		public float Fov
 		{

@@ -67,7 +67,8 @@ namespace VTKInt.Structues
 
 		private static void LoadMesh(ref Mesh curMesh)
 		{
-			if(curMesh.Name.Contains(".obj"))
+			if(!curMesh.Name.Contains(".obj"))
+				curMesh.Name += ".obj";
 				LoadObj(ref curMesh);
 		}
 		

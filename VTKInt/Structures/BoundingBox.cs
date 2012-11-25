@@ -39,6 +39,17 @@ namespace VTKInt.Structues
 			get { return (max - min) / 2.0f; }
 		}
 
+		public void Scale(Vector3 scale)
+		{
+			Vector3 halfSize = this.HalfSize;
+
+			halfSize.X *= scale.X;
+			halfSize.Y *= scale.Y;
+			halfSize.Z *= scale.Z;
+
+			this.HalfSize = halfSize;
+		}
+
 		public BoundingBox ()
 		{
 		}

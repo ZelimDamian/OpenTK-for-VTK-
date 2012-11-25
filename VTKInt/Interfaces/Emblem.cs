@@ -2,19 +2,42 @@ using System;
 using OpenTK;
 using VTKInt.Models;
 using VTKInt.Structues;
+using VTKInt.Animations;
 
 namespace VTKInt.Interface
 {
-	public class Emblem : Model, ITouchable
+	public class Emblem : Model, ITouchable, IAnimatable
 	{
 		public Emblem ()
 		{
 
 		}
 
+		Animation animation;
+
+		public bool IsAnimated
+		{
+			get { return animation != null; }
+		}
+
+		public VTKObject Animated
+		{
+			get { return this; }
+			set {}
+		}
+
+		public Animation Animation
+		{
+			get { return animation; }
+			set { animation = value; }
+		}
+
 		public override void Update ()
 		{
-			Orientation = Orientation * Quaternion.FromAxisAngle(Vector3.UnitY, SceneManager.FrameTime * (float)Math.PI / 2.0f);
+			if(!IsAnimated)
+			{
+				AnimationManager.Add(AnimationManager.AnimationType.Spin, this);
+			}
 			base.Update ();
 		}
 

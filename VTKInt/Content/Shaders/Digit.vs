@@ -26,16 +26,18 @@ varying float v_depth;
 
 void main(void)
 {
-	g_pos = model_matrix * mesh_matrix * vec4(in_position, 1);
+	mat4 toWorld = model_matrix * mesh_matrix;
+	g_pos = toWorld * vec4(in_position, 1);
 	
 	gl_Position = projection_matrix * modelview_matrix * g_pos;
 	
 	v_texture = in_texture;
 	
 	v_eyedirection = normalize(g_pos.xyz - in_eyepos);
+	
 	light = normalize(-g_pos.xyz + in_light);
 	
-	v_normal = normalize((vec4(in_normal, 0)).xyz);
-	v_tangent = normalize((vec4(in_tangent, 0)).xyz);
-	v_bnormal = normalize(cross(v_normal, v_tangent));
+	v_normal =  (rotation_matrix * vec4(in_normal, 1.0)).xyz;
+	v_tangent = normalize(in_tangent);
+	v_bnormal = cross(v_normal, v_tangent);
 }

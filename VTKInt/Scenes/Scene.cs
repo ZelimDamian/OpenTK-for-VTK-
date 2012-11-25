@@ -199,6 +199,62 @@ namespace VTKInt
 
 					sceneReader.MoveToElement();
 				}
+				if(sceneReader.Name == "emblems" && sceneReader.HasAttributes)
+				{
+					String materialName = "", meshName = "";
+					//float width = 0.0f, height = 0.0f;
+
+					EmblemPanel panel = new EmblemPanel();
+
+					while(sceneReader.MoveToNextAttribute())
+					{
+						if(sceneReader.Name == "distanceBetween")
+						{
+							panel.DistanceBetween = float.Parse(sceneReader.Value);
+						} else if(sceneReader.Name == "position")
+						{
+							panel.Position = ParseVector(sceneReader.Value);
+						}
+					}
+
+ 					sceneReader.MoveToElement();
+
+					sceneReader.ReadToDescendant("emblem");
+
+					do
+					{
+						Emblem model = new Emblem();
+						
+						while(sceneReader.MoveToNextAttribute())
+						{
+							if(sceneReader.Name == "mesh")
+							{
+								model.AddComponent(MeshLoader.GetMesh(sceneReader.Value));
+							}
+							else if(sceneReader.Name == "material")
+							{
+								model.AddMaterial(MaterialLoader.GetMaterial(sceneReader.Value));
+							}
+							else if(sceneReader.Name == "position")
+							{
+								model.Position = ParseVector(sceneReader.Value);
+							}
+							else if(sceneReader.Name == "orientation")
+							{
+								model.Orientation = ParseQuaternion(sceneReader.Value);
+							}
+						}
+						
+						//sceneReader.MoveToElement();
+
+						panel.AddEmblem(model);
+
+					} while(sceneReader.ReadToNextSibling("emblem"));
+
+					this.objects.Add(panel);
+					
+					sceneReader.MoveToElement();
+				}
 			}
 		}
 
@@ -245,6 +301,9 @@ namespace VTKInt
 
 			GL.Enable(EnableCap.Blend);
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+
+//			GL.Enable(EnableCap.CullFace);
+//			GL.CullFace(CullFaceMode.Back);
 		}
 	}
 

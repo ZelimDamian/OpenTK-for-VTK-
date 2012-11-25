@@ -6,7 +6,7 @@ namespace VTKInt.Animations
 {
 	public class Animation
 	{
-		public List<Vector3> frames = new List<Vector3>();
+		public List<AnimFrame> frames = new List<AnimFrame>();
 
 		IAnimatable animatee;
 
@@ -15,7 +15,7 @@ namespace VTKInt.Animations
 
 		bool running = false;
 
-		public Animation (IAnimatable animatee, List<Vector3> frames, float length)
+		public Animation (IAnimatable animatee, List<AnimFrame> frames, float length)
 		{
 			this.animatee = animatee;
 			animatee.Animation = this;
@@ -30,7 +30,7 @@ namespace VTKInt.Animations
 			this.length = length;
 		}
 
-		public void AddFrame(Vector3 frame)
+		public void AddFrame(AnimFrame frame)
 		{
 			frames.Add(frame);
 		}
@@ -67,7 +67,15 @@ namespace VTKInt.Animations
 				float index = (CurrentTime / length * (float)(frames.Count - 1));
 				float lerp = index - (float)Math.Floor(index);
 
-				animatee.Animated.Position = Vector3.Lerp(frames[(int)index], frames[(int)index + 1], lerp);
+				AnimFrame current = frames[(int) index];
+				AnimFrame next = frames[(int) index + 1];
+
+				if(current.IsAnimatedPos && next.IsAnimatedPos)
+					animatee.Animated.Position = Vector3.Lerp(current.Position, next.Position, lerp);
+				if(current.IsAnimatedOrientation && next.IsAnimatedOrientation)
+					animatee.Animated.Orientation = Quaternion.Slerp(current.Orientation, next.Orientation, lerp);
+				if(current.IsAnimatedScale && current.IsAnimatedScale)
+					animatee.Animated.Scale = Vector3.Lerp(current.Scale, next.Scale, lerp);
 			}
 		}
 	}

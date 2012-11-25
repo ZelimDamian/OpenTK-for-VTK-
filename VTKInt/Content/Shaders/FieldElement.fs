@@ -15,7 +15,9 @@ varying float v_depth;
 void main(void)
 {
 	float diffuse = clamp(dot(normalize(v_normal), light), 0.0, 1.0);
-	vec3 texture = vec3(1.0) * diffuse;
 	
+	float specular = pow(clamp(dot(normalize(reflect(v_eyedirection, v_normal)), light), 0.0, 1.0), 40);
+	
+	vec3 texture = vec3(0.8) * diffuse + vec3(1.0) * specular;
 	gl_FragColor = vec4(texture, 1.0);
 }

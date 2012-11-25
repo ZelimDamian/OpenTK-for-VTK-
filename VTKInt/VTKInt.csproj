@@ -75,6 +75,9 @@
     <Compile Include="Animations\AnimationManager.cs" />
     <Compile Include="Animations\Animatee.cs" />
     <Compile Include="Animations\IAnimatable.cs" />
+    <Compile Include="Interfaces\DigitDisplay.cs" />
+    <Compile Include="Interfaces\EmblemPanel.cs" />
+    <Compile Include="Animations\AnimFrame.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Rendering\" />
@@ -127,5 +130,6 @@
     <None Include="Content\Models\7.obj" />
     <None Include="Content\Models\8.obj" />
     <None Include="Content\Models\9.obj" />
+    <None Include="Content\Emblems.xml" />
   </ItemGroup>
 </Project>

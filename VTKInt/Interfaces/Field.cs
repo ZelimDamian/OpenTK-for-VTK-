@@ -119,5 +119,13 @@ namespace VTKInt.Interface
 
 			base.Update ();
 		}
+
+		int waveIndex = 0;
+
+		public void SendHorizontalWave()
+		{
+			for ( int i = 0, l = DimX * DimZ; i < l; i ++ ) {
+			}
+		}
 	}
 }

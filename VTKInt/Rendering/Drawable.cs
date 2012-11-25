@@ -79,7 +79,7 @@ namespace VTKInt.Rendering
 
 			material.activateUniforms();
 
-			Vector3 lightPos = new Vector3(10.0f, 100.0f, 10.0f);
+			Vector3 lightPos = new Vector3(100.0f, 100.0f, 100.0f);
 
 			material.shader.insertUniform(Shader.Uniform.model_matrix, ref transform);
 			material.shader.insertUniform(Shader.Uniform.in_light, ref lightPos);
