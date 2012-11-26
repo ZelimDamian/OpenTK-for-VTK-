@@ -16,6 +16,17 @@ namespace VTKInt.Web
 
 			request.GetResponse();
 		}
+
+		public static string GetString(string URL)
+		{
+			WebRequest request = WebRequest.Create(URL);
+
+			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+			Stream stream = response.GetResponseStream();
+
+			return stream.ToString();
+		}
 	}
 }
 

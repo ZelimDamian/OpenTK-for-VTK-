@@ -25,7 +25,7 @@ namespace VTKInt.Interface
 
 		public void RemoveLastDigit()
 		{
-			digits.Remove(digits.Length - 2);
+			digits = digits.Remove(digits.Length - 1);
 			UpdateDigits();
 		}
 
@@ -43,6 +43,17 @@ namespace VTKInt.Interface
 					comp.Position = pos;
 
 				components.Add(comp);
+			}
+		}
+
+		public String Digits
+		{
+			get {
+				return digits;
+			}
+			set {
+				digits = value;
+				UpdateDigits();
 			}
 		}
 	}

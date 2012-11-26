@@ -49,6 +49,11 @@ namespace VTKInt.Interface
 
 		}
 
+		public void React()
+		{
+
+		}
+
 		public override void Update ()
 		{
 			if(SceneManager.Window.Mouse[OpenTK.Input.MouseButton.Right])

@@ -1,12 +1,14 @@
 using System;
+using OpenTK;
 using VTKInt.Structues;
+using VTKInt.Web;
 using VTKInt.Animations;
 
 namespace VTKInt.Interface
 {
-	public class DigitComponent : NumpadComponent
+	public class ForwardButton: NumpadComponent
 	{
-		public DigitComponent (string meshName) : base(meshName)
+		public ForwardButton (string meshName) : base(meshName)
 		{
 		}
 
@@ -17,8 +19,12 @@ namespace VTKInt.Interface
 
 		public override void React()
 		{
+			if(IsAnimated)
+				return;
+
 			AnimationManager.Add(AnimationManager.AnimationType.Press, this);
-			Numpad.Display.AddDigit(this.NameClean);
+
+			TransactionsManager.SendNumber(Numpad.Display.Digits);
 		}
 	}
 }

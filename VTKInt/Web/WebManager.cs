@@ -8,11 +8,17 @@ namespace VTKInt.Web
 		{
 		}
 
-		public static string LocalHostStateFile = "http://localhost/~Zelom/VTKTest/storeState.php";
+		public static string LocalHostStoreState = "http://localhost/~Zelom/VTKTest/storeState.php";
+		public static string LocalHostFetchState = "http://localhost/~Zelom/VTKTest/getState.php";
 
 		public static void SendMessage(string message)
 		{
-			WebClient.SendMessage(LocalHostStateFile, message);
+			WebClient.SendMessage(LocalHostStoreState, message);
+		}
+
+		public static String GetMessage()
+		{
+			return WebClient.GetString(LocalHostFetchState);
 		}
 	}
 }

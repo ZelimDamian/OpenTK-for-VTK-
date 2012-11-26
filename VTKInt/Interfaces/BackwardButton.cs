@@ -1,12 +1,14 @@
 using System;
+using OpenTK;
 using VTKInt.Structues;
+using VTKInt.Web;
 using VTKInt.Animations;
 
 namespace VTKInt.Interface
 {
-	public class DigitComponent : NumpadComponent
+	public class BackwardButton: NumpadComponent
 	{
-		public DigitComponent (string meshName) : base(meshName)
+		public BackwardButton (string meshName) : base(meshName)
 		{
 		}
 
@@ -17,8 +19,12 @@ namespace VTKInt.Interface
 
 		public override void React()
 		{
+			if(IsAnimated)
+				return;
+
 			AnimationManager.Add(AnimationManager.AnimationType.Press, this);
-			Numpad.Display.AddDigit(this.NameClean);
+
+			Numpad.Display.RemoveLastDigit();
 		}
 	}
 }

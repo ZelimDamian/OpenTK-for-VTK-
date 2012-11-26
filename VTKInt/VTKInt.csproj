@@ -78,6 +78,10 @@
     <Compile Include="Interfaces\DigitDisplay.cs" />
     <Compile Include="Interfaces\EmblemPanel.cs" />
     <Compile Include="Animations\AnimFrame.cs" />
+    <Compile Include="Interfaces\ForwardButton.cs" />
+    <Compile Include="Web\TransactionsManager.cs" />
+    <Compile Include="Interfaces\NumpadComponent.cs" />
+    <Compile Include="Interfaces\BackwardButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Rendering\" />
@@ -131,5 +135,10 @@
     <None Include="Content\Models\8.obj" />
     <None Include="Content\Models\9.obj" />
     <None Include="Content\Emblems.xml" />
+    <None Include="Content\Textures\Megafon_Emblem.png" />
+    <None Include="Content\Textures\Sky.png" />
+    <None Include="Content\Materials\Megafon_Emblem.xmf" />
+    <None Include="Content\Models\BackwardButton.obj" />
+    <None Include="Content\Models\ForwardButton.obj" />
   </ItemGroup>
 </Project>

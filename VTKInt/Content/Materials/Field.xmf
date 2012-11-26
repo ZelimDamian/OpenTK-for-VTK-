@@ -1,3 +1,4 @@
 <material shader="FieldElement.xsp">
 	<textures />
+	<envmap source="Sky.png" />
 </material>

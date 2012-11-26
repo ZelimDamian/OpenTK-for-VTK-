@@ -32,9 +32,11 @@ void main(void)
 	
 	v_texture = in_texture;
 	
-	v_eyedirection = normalize(g_pos.xyz - in_eyepos);
+	v_eyedirection = -normalize(g_pos.xyz - in_eyepos);
 	
-	v_normal = normalize((vec4(in_normal, 0)).xyz);
+	light = normalize(in_light - g_pos.xyz);
+	
+	v_normal =  (rotation_matrix * vec4(in_normal, 1.0)).xyz;
 	v_tangent = normalize((vec4(in_tangent, 0)).xyz);
 	v_bnormal = normalize(cross(v_normal, v_tangent));
 }

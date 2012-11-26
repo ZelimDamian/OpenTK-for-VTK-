@@ -29,6 +29,8 @@ void main(void)
 	g_pos = model_matrix * mesh_matrix * vec4(in_position, 1);
 	
 	gl_Position = projection_matrix * modelview_matrix * g_pos;
+	v_eyedirection = normalize(in_eyepos - g_pos.xyz);
 	
+	v_normal = in_normal;
 	v_texture = in_texture;
 }

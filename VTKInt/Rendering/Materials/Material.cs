@@ -23,13 +23,13 @@ namespace VTKInt.Materials
 		{
 			baseTexture,
 			base2Texture,
+			envMapTexture,
 			base3Texture,
 			normalTexture,
 			emitTexture,
 			reflectionTexture,
 			emitMapTexture,
 			specMapTexture,
-			envMapTexture,
 			envTexture,
 			definfoTexture
 		}
@@ -47,22 +47,27 @@ namespace VTKInt.Materials
 
 		public void activateTextures()
 		{
-			for(int texUnit = 0; texUnit < textures.Length; texUnit++)
+			int texUnit = 0;
+			for(int i = 0; i < textures.Length; i++)
 			{
-				if(textures[texUnit] == null)
-					return;
+				if(textures[i] == null)
+					continue;
 
 				GL.ActiveTexture(TextureUnit.Texture0 + texUnit);
-				GL.BindTexture(TextureTarget.Texture2D, textures[texUnit].id);
-				string texName = textures[texUnit].Type.ToString();
+				GL.BindTexture(TextureTarget.Texture2D, textures[i].id);
+
+				string texName = textures[i].Type.ToString();
 				GL.Uniform1(GL.GetUniformLocation(shader.handle, texName), texUnit);
+
+				texUnit ++;
 			}
 		}
 
 		public void SetTexture(TexType type, Texture texture)
 		{
 			texture.Type = type;
-			textures[(int)type] = texture;
+			int typeint = (int)type;
+			textures[typeint] = texture;
 		}
 	}
 	
@@ -90,6 +95,7 @@ namespace VTKInt.Materials
 			XmlReader reader = XmlReader.Create(ContentDir + name);
 
 			Material material = new Material();
+			material.Name = name;
 
 			while (reader.Read())
 				{
@@ -114,6 +120,12 @@ namespace VTKInt.Materials
 							
 							if (reader.Name == "base")
 								material.SetTexture(Material.TexType.baseTexture, tmpTex);
+
+							if (reader.Name == "base2")
+							material.SetTexture(Material.TexType.base2Texture, tmpTex);
+
+							if (reader.Name == "envmap")
+								material.SetTexture(Material.TexType.envMapTexture, tmpTex);
 						}
 					reader.MoveToElement();
 					}

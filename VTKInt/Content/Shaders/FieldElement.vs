@@ -32,7 +32,7 @@ void main(void)
 	
 	v_texture = in_texture;
 	
-	v_eyedirection = normalize(g_pos.xyz - in_eyepos);
+	v_eyedirection = -normalize(g_pos.xyz - in_eyepos);
 	light = normalize(-g_pos.xyz + in_light);
 	
 	v_normal = normalize((vec4(in_normal, 0)).xyz);

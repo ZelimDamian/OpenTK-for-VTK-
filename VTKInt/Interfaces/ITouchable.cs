@@ -7,6 +7,7 @@ namespace VTKInt.Interface
 	public interface ITouchable
 	{
 		void Touch(Ray ray);
+		void React();
 	}
 }
 

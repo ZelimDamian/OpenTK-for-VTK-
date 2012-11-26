@@ -32,8 +32,10 @@ namespace VTKInt.Interface
 				
 				meshName += ".obj";
 				
-				Component comp = new DigitComponent(meshName);
-				
+				DigitComponent comp = new DigitComponent(meshName);
+
+				comp.Numpad = this;
+
 				Vector3 pos = new Vector3( - this.width / 2.0f, 0.0f, 0.0f);
 
 				pos += new Vector3( (float)((i-1) % 3) * width / 3.0f, height - (float)Math.Floor((float)(i-1) / 3.0f) * height / 4.0f, 0.0f );
@@ -51,6 +53,16 @@ namespace VTKInt.Interface
 
 				AddComponent(comp);
 			}
+
+			NumpadComponent forwards = new ForwardButton("ForwardButton.obj");
+			forwards.Numpad = this;
+			forwards.Position = width * 0.25f * Vector3.UnitX + Vector3.UnitY * 0.5f;
+			AddComponent(forwards);
+
+			NumpadComponent backwards = new BackwardButton("BackwardButton.obj");
+			backwards.Numpad = this;
+			backwards.Position = -width * 0.45f * Vector3.UnitX + Vector3.UnitY * 0.5f;
+			AddComponent(backwards);
 		}
 		
 		public override void Update ()
@@ -70,7 +82,7 @@ namespace VTKInt.Interface
 				foreach(Component comp in components)
 				{
 					try{
-						if(((DigitComponent)comp).IsAnimated)
+						if(((NumpadComponent)comp).IsAnimated)
 							return true;
 					}
 					catch(Exception) {}
@@ -94,7 +106,7 @@ namespace VTKInt.Interface
 
 			foreach(Component comp in components)
 			{
-				if(!(comp is DigitComponent))
+				if(!(comp is NumpadComponent))
 					return;
 
 				BoundingBox curBox = new BoundingBox(comp.Box);
@@ -106,12 +118,24 @@ namespace VTKInt.Interface
 				
 				if(intersection != null)
 				{
-					AnimationManager.Add(AnimationManager.AnimationType.Press, (DigitComponent)comp);
-					display.AddDigit(comp.NameClean);
-					//WebManager.SendMessage(comp.Name);
+					((ITouchable)comp).React();
 					return;
 				}
 			}
+		}
+
+		public void Forward()
+		{
+
+		}
+
+		public void React()
+		{}
+
+		public DigitDisplay Display
+		{
+			get { return display; }
+			set { display = value; }
 		}
 
 		public override Vector3 Scale {

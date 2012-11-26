@@ -45,6 +45,11 @@ namespace VTKInt.Interface
 		{
 
 		}
+
+		public void React()
+		{
+
+		}
 	}
 }
 
