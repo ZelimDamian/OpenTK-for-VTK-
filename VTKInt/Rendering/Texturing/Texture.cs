@@ -33,8 +33,25 @@ namespace VTKInt.Textures
 			return LoadTexture(name);
 		}
 
+		public static void RegisterTexture(Texture texture)
+		{
+			textures.Add(texture);
+		}
+
+		public static void RegisterFrameBuffer(int bufferIndex, string name)
+		{
+			Texture tex = new Texture();
+			tex.id = bufferIndex;
+			tex.Name = name;
+			//tex.Type = ?
+			RegisterTexture(tex);
+		}
+
 		public static Texture LoadTexture(string name)
-	{
+		{
+			if(!name.Contains(".png"))
+				return new Texture();
+
 			Texture texture = new Texture();
 			texture.Name = name;
 
@@ -52,8 +69,8 @@ namespace VTKInt.Textures
 
 			GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
-
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMinFilter.Linear);
+
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
 

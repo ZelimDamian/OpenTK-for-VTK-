@@ -34,21 +34,36 @@ namespace VTKInt.Interface
 
 		public override void Update ()
 		{
-			if(!IsAnimated)
-			{
-				AnimationManager.Add(AnimationManager.AnimationType.Spin, this);
-			}
+			if(SceneManager.Window.Mouse[OpenTK.Input.MouseButton.Right])
+				Touch(SceneManager.GetMouseRay());
 			base.Update ();
 		}
 
 		public void Touch(Ray ray)
 		{
-
+			foreach(Component comp in components)
+			{
+				BoundingBox curBox = new BoundingBox(comp.Box);
+				
+				curBox.Center = Vector3.Transform(curBox.Center, this.Transform);
+				curBox.Scale(this.scale);
+				
+				Vector3? intersection = ray.GetIntersectionPoint(curBox);
+				
+				if(intersection != null)
+				{
+					React();
+					return;
+				}
+			}
 		}
 
 		public void React()
 		{
-
+			if(!IsAnimated)
+			{
+				AnimationManager.Add(AnimationManager.AnimationType.Spin, this);
+			}
 		}
 	}
 }

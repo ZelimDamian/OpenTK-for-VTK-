@@ -9,6 +9,7 @@ using VTKInt.Interface;
 using VTKInt.Structues;
 using VTKInt.Materials;
 using VTKInt.Animations;
+using VTKInt.Framebuffers;
 
 namespace VTKInt
 {
@@ -27,6 +28,7 @@ namespace VTKInt
 		}
 
 		const string SceneFile = "../../Content/Scene.xml";
+
 
 		public void Load(string filename = SceneFile)
 		{
@@ -275,10 +277,15 @@ namespace VTKInt
 
 		public void Render()
 		{
+			GL.Clear(  ClearBufferMask.ColorBufferBit |
+			                ClearBufferMask.DepthBufferBit);
+
 			foreach(VTKObject obj in objects)
 			{
 				obj.Render();
 			}
+
+
 		}
 
 		public void Update()
@@ -312,6 +319,12 @@ namespace VTKInt
 		public static float FrameTime;
 		public static float RunningTime;
 
+
+		
+		static FramebufferCreator fbCreator;
+		static Framebuffer sceneFramebuffer;
+
+
 		public static GameWindow Window;
 
 		public static Camera Camera
@@ -324,6 +337,50 @@ namespace VTKInt
 		public static void OnResize()
 		{
 			Camera.Aspect = (float)Window.Width / Window.Height;
+		}
+
+		public static void Load()
+		{
+			
+			fbCreator = new FramebufferCreator();
+			
+			sceneFramebuffer= fbCreator.createFrameBuffer("sceneFramebuffer", SceneManager.Window.Width, SceneManager.Window.Height, PixelInternalFormat.Rgba8, false);
+			sceneFramebuffer.clearColor = new OpenTK.Graphics.Color4(0f, 0f, 0f, 0f);
+
+			Scene.Load();
+		}
+
+		public static void Render()
+		{
+
+			//sceneFramebuffer.enable(true);
+
+			//Scene.Render();
+			//GL.UseProgram(0);
+			GL.Ortho(0.0, (double)Window.Width, 0.0, (double)Window.Height, -10.0, 10.0);
+			
+			GL.Clear(  ClearBufferMask.ColorBufferBit |
+			         ClearBufferMask.DepthBufferBit);
+
+			//fbCreator.defaultFb.enable(true);
+			GL.Enable(EnableCap.Texture2D);
+			GL.BindTexture(TextureTarget.Texture2D, Textures.TextureLoader.GetTexture("Sky.png").id);
+
+			GL.Begin(BeginMode.Quads);
+				GL.TexCoord2(0.0f, 0.0f);
+				GL.Color3(Vector3.UnitX);
+				GL.Vertex3(0.0f, 0.0f, 0.0f);
+				GL.TexCoord2(0.0f, 0.0f);
+				GL.Color3(Vector3.UnitY);
+				GL.Vertex3((float)Window.Width, 0.0f, 0.0f);
+				GL.TexCoord2(0.0f, 0.0f);
+				GL.Color3(Vector3.UnitZ);	
+				GL.Vertex3((float)Window.Width, (float)Window.Height, 0.0f);
+				GL.TexCoord2(0.0f, 0.0f);
+				GL.Color3(Vector3.UnitZ);
+				GL.Vertex3(0.0f, (float)Window.Height, 0.0f);
+			GL.End();
+
 		}
 
 		public static Ray GetMouseRay()

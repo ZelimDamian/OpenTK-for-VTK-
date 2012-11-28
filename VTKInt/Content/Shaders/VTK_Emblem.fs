@@ -41,7 +41,7 @@ void main (void)
 	vec3 envColor = vec3 (texture2D(envMapTexture, index));
 	vec3 texture = texture2D(baseTexture, v_texture).xyz * diffuse + vec3(1.0) * specular;
 	
-	gl_FragColor = vec4 (mix(envColor, texture, 0.85), 1.0);
+	gl_FragColor = vec4 (mix(envColor, texture, 0.75), 1.0);
 	
 	//gl_FragColor = texture2D(base2Texture, v_texture);
 }

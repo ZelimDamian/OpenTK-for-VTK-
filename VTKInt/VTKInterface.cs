@@ -6,16 +6,16 @@ using OpenGL = OpenTK.Graphics.OpenGL;
 
 namespace VTKInt
 {
-	public class VTKInt : OpenTK.GameWindow
+	public class VTKInterface : OpenTK.GameWindow
 	{
-		public VTKInt () : base(980, 600, new GraphicsMode(32, 32, 0, 2))
+		public VTKInterface () : base(980, 600, new GraphicsMode(32, 32, 0, 2))
 		{
 			SceneManager.Window = this;
 		}
 	
 		protected override void OnLoad (EventArgs e)
 		{
-			SceneManager.Scene.Load();
+			SceneManager.Load();
 
 			base.OnLoad (e);
 		}
@@ -37,13 +37,11 @@ namespace VTKInt
 					justToggled = false;
 			};
 
+			
 			SceneManager.FrameTime = (float) e.Time;
 			SceneManager.RunningTime += SceneManager.FrameTime;
 
-			OpenGL.GL.Clear(  OpenGL.ClearBufferMask.ColorBufferBit |
-			                OpenGL.ClearBufferMask.DepthBufferBit);
-
-			SceneManager.Scene.Render();
+			SceneManager.Render();
 
 			SwapBuffers();
 
@@ -79,7 +77,7 @@ namespace VTKInt
 		[STAThread]
 		public static void Main()
 		{
-			using(VTKInt app = new VTKInt())
+			using(VTKInterface app = new VTKInterface())
 			{
 				app.Run(30.0, 30.0);
 			}

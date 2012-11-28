@@ -25,7 +25,7 @@ void main (void)
 	vec3 reflection = normalize(reflect(v_eyedirection, v_normal));
 	
 	float diffuse = clamp(dot(normalize(v_normal), light), 0.0, 1.0);
-	float specular = pow(clamp(dot(reflection, light), 0.0, 1.0), 40);
+	float specular = pow(clamp(dot(-reflection, light), 0.0, 1.0), 40);
 	
 	vec2 index;
 	index.y = reflection.y;
@@ -44,22 +44,7 @@ void main (void)
 	vec3 envColor = vec3 (texture2D(envMapTexture, index));
 
 	//envColor = mix(envColor, base, 0.2);
-	vec3 texture = vec3(0.8) * diffuse + vec3(1.0) * specular;
+	vec3 texture = vec3(0.9) * diffuse + vec3(1.0) * specular;
 	
-	gl_FragColor = vec4 (mix(envColor, texture, 0.5), 1.0);
+	gl_FragColor = vec4 (mix(envColor, texture, 0.85), 1.0);
 }
-
-
-//void main(void)
-//{
-//	float diffuse = clamp(dot(normalize(v_normal), light), 0.0, 1.0);
-	
-//	float specular = pow(clamp(dot(normalize(reflect(v_eyedirection, v_normal)), light), 0.0, 1.0), 40);
-	
-//	vec3 reflected = reflect(v_eyedirection, normalize(v_normal));
-	
-//	vec4 envColor = textureCube(envMapTexture, reflected);
-	
-
-//	gl_FragColor = vec4(texture, 1.0) + envColor;
-//}

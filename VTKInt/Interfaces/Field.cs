@@ -56,6 +56,8 @@ namespace VTKInt.Interface
 
 		public override void Update ()
 		{
+			SendHorizontalWave();
+
 			if(SceneManager.Window.Mouse[OpenTK.Input.MouseButton.Right])
 				Touch(SceneManager.GetMouseRay());
 
@@ -116,7 +118,8 @@ namespace VTKInt.Interface
 			
 			// update grid
 			
-			for ( int i = 0, l = DimX * DimZ; i < l; i ++ ) {
+			for ( int i = 0, l = DimX * DimZ; i < l; i ++ )
+			{
 				Vector3 s = components[i].Scale;
 				s.Y = s.Y + ( Math.Max( 1.0f, 1.0f + buffer2[ i ] ) - s.Y ) * 0.1f;
 				components[i].Scale = s;
@@ -125,11 +128,22 @@ namespace VTKInt.Interface
 			base.Update ();
 		}
 
-		int waveIndex = 0;
+		int waveIndex = -1;
 
 		public void SendHorizontalWave()
 		{
-			for ( int i = 0, l = DimX * DimZ; i < l; i ++ ) {
+			waveIndex = (int) ((Math.Sin(SceneManager.RunningTime / 3.0f) + 1.0f) / 2.0f * DimZ);
+
+			if(waveIndex < 0)
+				return;
+
+			for(int i = 0; i < DimX; i ++)
+				for(int j = 0; j < DimZ; j ++)
+			{
+				if(j == waveIndex)
+				{
+					buffer1[ j + i * DimZ ] = 10.0f;
+				}
 			}
 		}
 	}

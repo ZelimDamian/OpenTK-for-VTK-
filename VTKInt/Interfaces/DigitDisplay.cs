@@ -7,7 +7,7 @@ namespace VTKInt.Interface
 {
 	public class DigitDisplay : Model
 	{
-		string digits;
+		string digits = "";
 
 		float distBetween;
 
@@ -25,6 +25,9 @@ namespace VTKInt.Interface
 
 		public void RemoveLastDigit()
 		{
+			if(digits.Length == 0)
+				return;
+
 			digits = digits.Remove(digits.Length - 1);
 			UpdateDigits();
 		}
