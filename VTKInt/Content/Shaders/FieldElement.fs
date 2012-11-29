@@ -21,29 +21,16 @@ const vec3 Xunitvec = vec3 (1.0, 0.0, 0.0);
 const vec3 Yunitvec = vec3 (0.0, 1.0, 0.0);
 
 void main (void)
-{
-		vec4 shadowCoordinateWdivide = ShadowCoord / ShadowCoord.w ;
-		
-		// Used to lower moiré pattern and self-shadowing
-		//shadowCoordinateWdivide.z += 0.0000005;
-		vec3 lightDistance = toLight;
-		
-		vec3 shadowMapValue = texture2D(lightTexture, shadowCoordinateWdivide.st).xyz; // full value from 0 to inf
-		
-		
-	 	float shadow = 1.0;
-	 	if (ShadowCoord.w > 0.0)
-	 		shadow = length(shadowMapValue) > shadowCoordinateWdivide.z ? 0.2 : 1.0 ;
-	  	
-	
+{	
 	float eyeNormalDot = dot(normalize(v_normal), normalize(v_eyedirection));
 	if(eyeNormalDot < 0.0)
 		discard;
 	
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////// REFLECTION
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	vec3 reflection = normalize(reflect(v_eyedirection, v_normal));
-	
-	float diffuse = clamp(dot(normalize(v_normal), light), 0.0, 1.0);
-	float specular = pow(clamp(dot(-reflection, light), 0.0, 1.0), 40);
 	
 	vec2 index;
 	index.y = reflection.y;
@@ -61,12 +48,39 @@ void main (void)
 
 	vec3 envColor = vec3 (texture2D(envMapTexture, index));
 
-	//envColor = mix(envColor, base, 0.2);
-	vec3 texture = vec3(0.9) * diffuse + vec3(1.0) * specular;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////// COLOR
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	//gl_FragColor = vec4( vec3(1.0) * shadow , 1.0);
-	//gl_FragColor = ShadowCoord;
-	//gl_FragColor = vec4(shadowCoordinateWdivide.xyz, 1.0);
+	float diffuse = clamp(dot(normalize(v_normal), light), 0.0, 1.0);
+	float specular = pow(clamp(dot(-reflection, light), 0.0, 1.0), 40);
+	
+	vec3 texture = vec3(0.9) * diffuse + vec3(1.0) * specular;
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// SHADOW
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	vec4 shadowCoordinateWdivide = ShadowCoord / ShadowCoord.w ;
+	
+	// Used to lower moiré pattern and self-shadowing
+	shadowCoordinateWdivide.z += 0.0000005;
+	
+	float shadowMapValue = length(texture2D(lightTexture, shadowCoordinateWdivide.st).y); // full value from 0 to inf
+
+ 	float shadow = 0.0;
+ 	if (ShadowCoord.w > 0.0)
+ 		shadow = shadowMapValue < shadowCoordinateWdivide.z ? 0.3 : 1.0 ;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	gl_FragColor = vec4 (mix(envColor, texture, 0.85) * shadow, 1.0);
 }
