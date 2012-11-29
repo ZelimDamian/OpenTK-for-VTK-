@@ -16,7 +16,7 @@ namespace VTKInt.Materials
 		}
 
 		public Shader shader;
-		Texture[] textures;
+		public Texture[] textures;
 		public string Name;
 
 		public enum TexType
@@ -31,7 +31,8 @@ namespace VTKInt.Materials
 			emitMapTexture,
 			specMapTexture,
 			envTexture,
-			definfoTexture
+			definfoTexture,
+			lightTexture
 		}
 
 		public void activateUniforms()
@@ -39,10 +40,32 @@ namespace VTKInt.Materials
 			Vector3 eye = SceneManager.Camera.Eye;
 			Matrix4 view = SceneManager.Camera.View;
 			Matrix4 proj = SceneManager.Camera.Projection;
+			Vector3 lightPos = SceneManager.Light.Eye;
 
 			shader.insertUniform(Shader.Uniform.in_eyepos, ref eye);
 			shader.insertUniform(Shader.Uniform.projection_matrix, ref proj);
 			shader.insertUniform(Shader.Uniform.modelview_matrix, ref view);
+			shader.insertUniform(Shader.Uniform.in_light, ref lightPos);
+
+			Matrix4 lightView = SceneManager.Light.View;
+			Matrix4 lightProj = SceneManager.Light.Projection;
+			
+			shader.insertUniform(Shader.Uniform.light_view, ref lightView);
+			shader.insertUniform(Shader.Uniform.light_proj, ref lightProj);
+
+			// Moving from unit cube [-1,1] to [0,1]  
+			Matrix4 bias = new Matrix4(	
+			                           0.5f, 0.0f, 0.0f, 0.0f,
+			                           0.0f, 0.5f, 0.0f, 0.0f,
+			                           0.0f, 0.0f, 0.5f, 0.0f,
+			                           0.5f, 0.5f, 0.5f, 1.0f
+			                           );
+			
+			shader.insertUniform(Shader.Uniform.shadow_bias, ref bias);
+
+			float lightFar = SceneManager.Light.Far;
+			shader.insertUniform(Shader.Uniform.in_far, ref lightFar);
+
 		}
 
 		public void activateTextures()
@@ -122,10 +145,13 @@ namespace VTKInt.Materials
 								material.SetTexture(Material.TexType.baseTexture, tmpTex);
 
 							if (reader.Name == "base2")
-							material.SetTexture(Material.TexType.base2Texture, tmpTex);
-
+								material.SetTexture(Material.TexType.base2Texture, tmpTex);
+						
 							if (reader.Name == "envmap")
 								material.SetTexture(Material.TexType.envMapTexture, tmpTex);
+
+							if (reader.Name == "lightMap")
+								material.SetTexture(Material.TexType.lightTexture, tmpTex);
 						}
 					reader.MoveToElement();
 					}

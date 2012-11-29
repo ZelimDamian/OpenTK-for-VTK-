@@ -30,13 +30,13 @@ namespace VTKInt.Interface
 			UpdateEmblemPositions();
 		}
 
-		public override void Render ()
+		public override void Render (RenderPass pass)
 		{
 			foreach(Emblem emblem in emblems)
 			{
-				emblem.Render();
+				emblem.Render(pass);
 			}
-			base.Render ();
+			base.Render (pass);
 		}
 
 		public override void Update ()

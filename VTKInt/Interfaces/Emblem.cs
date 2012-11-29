@@ -10,7 +10,7 @@ namespace VTKInt.Interface
 	{
 		public Emblem ()
 		{
-
+			CastShadows = true;
 		}
 
 		Animation animation;

@@ -9,10 +9,21 @@ namespace VTKInt
 		{
 		}
 
+		public virtual void Render(Shader shader)
+		{
+			
+		}
+
 		public virtual void Render()
 		{
 
 		}
+
+		public virtual void Render(RenderPass pass)
+		{
+
+		}
+
 
 		public virtual void Update()
 		{

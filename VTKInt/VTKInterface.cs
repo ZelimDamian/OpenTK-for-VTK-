@@ -32,11 +32,12 @@ namespace VTKInt
 		{
 			Title = "FPS: " + (1 / e.Time).ToString("000.00");
 
-			Keyboard.KeyUp += delegate(object sender, OpenTK.Input.KeyboardKeyEventArgs ev) {
+			Keyboard.KeyUp +=
+				delegate(object sender, OpenTK.Input.KeyboardKeyEventArgs ev)
+			{
 				if(ev.Key == OpenTK.Input.Key.F) 
 					justToggled = false;
 			};
-
 			
 			SceneManager.FrameTime = (float) e.Time;
 			SceneManager.RunningTime += SceneManager.FrameTime;

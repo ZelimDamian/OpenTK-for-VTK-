@@ -5,6 +5,9 @@ uniform mat4 modelview_matrix;
 uniform mat4 model_matrix;
 uniform mat4 rotation_matrix;
 uniform mat4 mesh_matrix;
+uniform mat4 shadow_bias;
+uniform mat4 light_view;
+uniform mat4 light_proj;
 
 uniform vec3 in_light;
 uniform vec3 in_eyepos;
@@ -22,18 +25,22 @@ varying vec3 v_tangent;
 varying vec3 v_bnormal;
 varying vec3 light;
 varying float v_depth;
-
+varying vec4 ShadowCoord;
+varying vec3 toLight;
 
 void main(void)
 {
 	g_pos = model_matrix * mesh_matrix * vec4(in_position, 1);
+	
+	ShadowCoord =  shadow_bias * light_proj * light_view * g_pos;
 	
 	gl_Position = projection_matrix * modelview_matrix * g_pos;
 	
 	v_texture = in_texture;
 	
 	v_eyedirection = -normalize(g_pos.xyz - in_eyepos);
-	light = normalize(-g_pos.xyz + in_light);
+	toLight = g_pos.xyz - in_light;
+	light = - normalize(toLight);
 	
 	v_normal = normalize((vec4(in_normal, 0)).xyz);
 	v_tangent = normalize((vec4(in_tangent, 0)).xyz);

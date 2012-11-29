@@ -5,6 +5,9 @@ uniform mat4 modelview_matrix;
 uniform mat4 model_matrix;
 uniform mat4 rotation_matrix;
 uniform mat4 mesh_matrix;
+uniform mat4 shadow_bias;
+uniform mat4 light_view;
+uniform mat4 light_proj;
 
 uniform vec3 in_light;
 uniform vec3 in_eyepos;

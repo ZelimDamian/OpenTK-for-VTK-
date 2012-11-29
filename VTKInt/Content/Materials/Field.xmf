@@ -1,4 +1,4 @@
 <material shader="FieldElement.xsp">
-	<textures />
+	<textures lightMap = "LightFramebufferColor"/>
 	<envmap source="Sky.png" />
 </material>

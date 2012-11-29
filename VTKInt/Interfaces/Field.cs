@@ -56,7 +56,7 @@ namespace VTKInt.Interface
 
 		public override void Update ()
 		{
-			SendHorizontalWave();
+			//SendHorizontalWave();
 
 			if(SceneManager.Window.Mouse[OpenTK.Input.MouseButton.Right])
 				Touch(SceneManager.GetMouseRay());

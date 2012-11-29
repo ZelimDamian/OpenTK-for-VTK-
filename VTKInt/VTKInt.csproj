@@ -52,7 +52,6 @@
     <Compile Include="Rendering\Lights\Light.cs" />
     <Compile Include="Cameras\Camera.cs" />
     <Compile Include="Cameras\CameraFPS.cs" />
-    <Compile Include="Rendering\FramebufferCreator.cs" />
     <Compile Include="Structures\BoundingBox.cs" />
     <Compile Include="Structures\Ray.cs" />
     <Compile Include="Structures\Plane.cs" />
@@ -83,6 +82,7 @@
     <Compile Include="Interfaces\BackwardButton.cs" />
     <Compile Include="Rendering\Framebuffers\FramebufferCreator.cs" />
     <Compile Include="VTKInterface.cs" />
+    <Compile Include="Cameras\CameraOrtho.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Rendering\" />
@@ -136,11 +136,16 @@
     <None Include="Content\Models\7.obj" />
     <None Include="Content\Models\8.obj" />
     <None Include="Content\Models\9.obj" />
-    <None Include="Content\Emblems.xml" />
     <None Include="Content\Textures\Megafon_Emblem.png" />
     <None Include="Content\Textures\Sky.png" />
     <None Include="Content\Materials\Megafon_Emblem.xmf" />
     <None Include="Content\Models\BackwardButton.obj" />
     <None Include="Content\Models\ForwardButton.obj" />
+    <None Include="Content\Shaders\Shadow.fs" />
+    <None Include="Content\Shaders\Shadow.vs" />
+    <None Include="Content\Shaders\Shadow.xsp" />
+    <None Include="Content\Shaders\TestQuad.xsp" />
+    <None Include="Content\Shaders\TestQuad.fs" />
+    <None Include="Content\Shaders\TestQuad.vs" />
   </ItemGroup>
 </Project>

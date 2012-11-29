@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using VTKInt.Cameras;
+using VTKInt.Lights;
 using VTKInt.Models;
 using VTKInt.Interface;
 using VTKInt.Structues;
@@ -180,7 +181,8 @@ namespace VTKInt
 				{
 					String materialName = "";
 					float width = 0.0f, height = 0.0f;
-					
+					Vector3 position;
+
 					while(sceneReader.MoveToNextAttribute())
 					{
 						if(sceneReader.Name == "material")
@@ -195,15 +197,22 @@ namespace VTKInt
 						{
 							height = float.Parse(sceneReader.Value);
 						}
+						else if(sceneReader.Name == "position")
+						{
+							position = ParseVector(sceneReader.Value);
+						}
 					}
-					
-					this.objects.Add(new Numpad(materialName, width, height));
+
+					Numpad numpad = new Numpad(materialName, width, height);
+					numpad.Position = position;
+
+					this.objects.Add(numpad);
 
 					sceneReader.MoveToElement();
 				}
 				if(sceneReader.Name == "emblems" && sceneReader.HasAttributes)
 				{
-					String materialName = "", meshName = "";
+					//String materialName = "", meshName = "";
 					//float width = 0.0f, height = 0.0f;
 
 					EmblemPanel panel = new EmblemPanel();
@@ -220,7 +229,6 @@ namespace VTKInt
 					}
 
  					sceneReader.MoveToElement();
-
 					sceneReader.ReadToDescendant("emblem");
 
 					do
@@ -275,17 +283,18 @@ namespace VTKInt
 			                                MathHelper.DegreesToRadians(float.Parse(angles[3])));
 		}
 
-		public void Render()
+		public void Render(RenderPass pass)
 		{
-			GL.Clear(  ClearBufferMask.ColorBufferBit |
-			                ClearBufferMask.DepthBufferBit);
+			switch(pass)
+			{
+			case RenderPass.Render : SceneManager.DefaultFramebuffer.enable(true); break;
+			case RenderPass.Shadow : SceneManager.LightFramebuffer.enable(true); break;
+			}
 
 			foreach(VTKObject obj in objects)
 			{
-				obj.Render();
+				obj.Render(pass);
 			}
-
-
 		}
 
 		public void Update()
@@ -319,11 +328,15 @@ namespace VTKInt
 		public static float FrameTime;
 		public static float RunningTime;
 
-
-		
 		static FramebufferCreator fbCreator;
-		static Framebuffer sceneFramebuffer;
+		public static Framebuffer LightFramebuffer;
+		public static Framebuffer DefaultFramebuffer
+		{
+			get { return fbCreator.defaultFb; }
+		}
 
+		public static Shader ShadowPassShader;
+		public static Light Light;
 
 		public static GameWindow Window;
 
@@ -341,46 +354,32 @@ namespace VTKInt
 
 		public static void Load()
 		{
-			
+			Light = new Lights.Light();
+			ShadowPassShader = ShaderLoader.GetShader("Shadow.xsp");
 			fbCreator = new FramebufferCreator();
 			
-			sceneFramebuffer= fbCreator.createFrameBuffer("sceneFramebuffer", SceneManager.Window.Width, SceneManager.Window.Height, PixelInternalFormat.Rgba8, false);
-			sceneFramebuffer.clearColor = new OpenTK.Graphics.Color4(0f, 0f, 0f, 0f);
+			LightFramebuffer= fbCreator.createFrameBuffer("LightFramebuffer", SceneManager.Window.Width, SceneManager.Window.Height, PixelInternalFormat.Rgba16f, false);
+			LightFramebuffer.clearColor = new OpenTK.Graphics.Color4(0f, 0f, 0f, 0f);
 
 			Scene.Load();
+
+			
+			GL.MatrixMode(MatrixMode.Projection);
+			GL.Ortho(0.0, (double)Window.Width, 0.0, (double)Window.Height, -10.0, 10.0);
+			GL.MatrixMode(MatrixMode.Modelview);
 		}
 
 		public static void Render()
 		{
+			Scene.Render(RenderPass.Shadow);
+			Scene.Render(RenderPass.Render);
 
-			//sceneFramebuffer.enable(true);
-
-			//Scene.Render();
-			//GL.UseProgram(0);
-			GL.Ortho(0.0, (double)Window.Width, 0.0, (double)Window.Height, -10.0, 10.0);
-			
-			GL.Clear(  ClearBufferMask.ColorBufferBit |
-			         ClearBufferMask.DepthBufferBit);
-
-			//fbCreator.defaultFb.enable(true);
-			GL.Enable(EnableCap.Texture2D);
-			GL.BindTexture(TextureTarget.Texture2D, Textures.TextureLoader.GetTexture("Sky.png").id);
-
-			GL.Begin(BeginMode.Quads);
-				GL.TexCoord2(0.0f, 0.0f);
-				GL.Color3(Vector3.UnitX);
-				GL.Vertex3(0.0f, 0.0f, 0.0f);
-				GL.TexCoord2(0.0f, 0.0f);
-				GL.Color3(Vector3.UnitY);
-				GL.Vertex3((float)Window.Width, 0.0f, 0.0f);
-				GL.TexCoord2(0.0f, 0.0f);
-				GL.Color3(Vector3.UnitZ);	
-				GL.Vertex3((float)Window.Width, (float)Window.Height, 0.0f);
-				GL.TexCoord2(0.0f, 0.0f);
-				GL.Color3(Vector3.UnitZ);
-				GL.Vertex3(0.0f, (float)Window.Height, 0.0f);
-			GL.End();
-
+			if(Window.Keyboard[OpenTK.Input.Key.P])
+			{
+				fbCreator.defaultFb.enable(true);
+				DrawTextureOnScreenQuad(VTKInt.Textures.TextureLoader.GetTexture("LightFramebufferColor").id, 0.0f, 1.0f);///.LightFramebuffer.ColorTexture, 0.0f);
+				//DrawTextureOnScreenQuad(SceneManager.LightFramebuffer.DepthTexture, 1.0f);
+			}
 		}
 
 		public static Ray GetMouseRay()
@@ -391,11 +390,50 @@ namespace VTKInt
 			Vector3 sourceNear = new Vector3(mouseX, mouseY, 0.0f);
 			Vector3 sourceFar  = new Vector3(mouseX, mouseY, 1.0f);
 
-			Vector3 near = VTKMath.Unproject(sourceNear, Camera.Projection, Camera.View, Matrix4.Identity, (float)Window.Width, (float)Window.Height);
-			Vector3 far  = VTKMath.Unproject(sourceFar , Camera.Projection, Camera.View, Matrix4.Identity, (float)Window.Width, (float)Window.Height);
+			Vector3 near = VTKMath.Unproject(sourceNear, Camera.Projection, Camera.View,
+			                                 Matrix4.Identity, (float)Window.Width, (float)Window.Height);
+			Vector3 far  = VTKMath.Unproject(sourceFar , Camera.Projection, Camera.View,
+			                                 Matrix4.Identity, (float)Window.Width, (float)Window.Height);
 
 			return new Ray(Camera.Eye, Vector3.Normalize(far - near));
 		}
+
+		
+		public static void DrawTextureOnScreenQuad(int textureId, float s, float e)
+		{
+
+			//GL.UseProgram(0);
+
+			Shader shader = ShaderLoader.GetShader("TestQuad.xsp");
+			GL.UseProgram(shader.handle);
+			GL.Uniform1(GL.GetUniformLocation(shader.handle, "texture"), 0);
+
+			GL.ActiveTexture(TextureUnit.Texture0);
+			GL.Enable(EnableCap.Texture2D);
+			GL.BindTexture(TextureTarget.Texture2D, textureId);
+
+			GL.Begin(BeginMode.Quads);
+				GL.TexCoord2(0.0f, 0.0f);
+				//GL.Color3(Vector3.UnitX);
+				GL.Vertex3((float)Window.Width * s, 0.0f, 0.0f);
+				GL.TexCoord2(1.0f, 0.0f);
+				//GL.Color3(Vector3.UnitY);
+				GL.Vertex3((float)Window.Width * s + (float)Window.Width * e, 0.0f, 0.0f);
+				GL.TexCoord2(1.0f, 1.0f);
+				//GL.Color3(Vector3.UnitZ);	
+				GL.Vertex3((float)Window.Width * s + (float)Window.Width * e, (float)Window.Height, 0.0f);
+				GL.TexCoord2(0.0f, 1.0f);
+				//GL.Color3(Vector3.UnitZ);
+				GL.Vertex3((float)Window.Width * s, (float)Window.Height, 0.0f);
+			GL.End();
+		}
 	}
+
+	public enum RenderPass
+	{
+		Render,
+		Shadow
+	}
+
 }
 

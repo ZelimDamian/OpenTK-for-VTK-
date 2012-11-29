@@ -190,6 +190,7 @@ namespace VTKInt.Framebuffers
             FramebufferNames.Add(newFb.Name, identifier);
 
 			TextureLoader.RegisterFrameBuffer(newFb.ColorTexture, newFb.Name + "Color");
+			TextureLoader.RegisterFrameBuffer(newFb.DepthTexture, newFb.Name + "Depth");
         }
 
         public void createLightBuffer(string name, int size, bool multisampling)
@@ -528,7 +529,7 @@ namespace VTKInt.Framebuffers
 
             GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, 0); // disable rendering into the FBO
 
-            GL.Viewport(0, 0, (int)(size.X), (int)(size.Y));
+			GL.Viewport(0, 0, SceneManager.Window.Width, SceneManager.Window.Height);
 
             if (wipe)
             {

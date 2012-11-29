@@ -48,6 +48,9 @@ namespace VTKInt.Cameras
 
 		public override void Update ()
 		{
+			if(Key[OpenTK.Input.Key.L])
+				SceneManager.Light.Eye = this.Eye;
+
 			if(Key[OpenTK.Input.Key.W])
 			{
 				MoveByVector(Forward);
@@ -77,6 +80,18 @@ namespace VTKInt.Cameras
 
 			base.Update ();
 		}
+
+
+		public override void UpdateViewMatrix()
+		{
+			this.view = Matrix4.LookAt(eye, origin, up);
+		}
+		
+		public override void UpdateProjMatrix()
+		{
+			this.projection = Matrix4.CreatePerspectiveFieldOfView(fov, aspect, near, far);
+		}
+
 	}
 }
 

@@ -30,6 +30,10 @@ namespace VTKInt
 			rotation_matrix2,
 			model_matrix2,
 			mesh_matrix,
+			light_view,
+			light_proj,
+			light_matrix,
+			shadow_bias,
 
 			in_eyepos,
 			in_time,

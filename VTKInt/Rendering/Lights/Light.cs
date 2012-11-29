@@ -3,18 +3,15 @@ using OpenTK;
 
 namespace VTKInt.Lights
 {
-	public class Light
+	public class Light : Cameras.CameraFPS
 	{
-		Vector3 position;
-		
-		public Vector3 Position
+		public Light () : base()
 		{
-			get { return position; }
-			set { position = value; }
-		}
+			this.Origin = new Vector3(40.0f, 0.0f, 30.0f);
+			this.Eye = new Vector3(45.0f, 10.0f, 20.0f);
 
-		public Light ()
-		{
+			UpdateViewMatrix();
+			UpdateProjMatrix();
 		}
 	}
 }

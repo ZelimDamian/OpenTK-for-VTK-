@@ -15,6 +15,7 @@ namespace VTKInt.Interface
 		{
 			AddMaterial(Materials.MaterialLoader.GetMaterial(materialName));
 			this.distBetween = distBetween;
+			CastShadows = true;
 		}
 
 		public void AddDigit(string digit)

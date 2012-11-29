@@ -10,17 +10,17 @@ namespace VTKInt.Cameras
 						ySens = 0.1f;
 
 
-		Matrix4 view,
+		protected Matrix4 view,
 				projection;
 
-		Vector3 origin,
+		protected Vector3 origin,
 				eye,
 				up = Vector3.UnitY;
 
-		public float 	fov = (float)MathHelper.DegreesToRadians(60.0f),
+		protected float 	fov = (float)MathHelper.DegreesToRadians(60.0f),
 						aspect = 1.0f,
 						near = 0.1f,
-						far = 500.0f;
+						far = 450.0f;
 
 		public float Fov
 		{
@@ -94,14 +94,18 @@ namespace VTKInt.Cameras
 			set { view = value;}
 		}
 
+		public Matrix4 Matrix
+		{
+			get { return View * Projection; }
+		}
+
 		public virtual void UpdateViewMatrix()
 		{
-			this.view = Matrix4.LookAt(eye, origin, up);
+
 		}
 
 		public virtual void UpdateProjMatrix()
 		{
-			this.projection = Matrix4.CreatePerspectiveFieldOfView(fov, aspect, near, far);
 		}
 
 		public Matrix4 Projection

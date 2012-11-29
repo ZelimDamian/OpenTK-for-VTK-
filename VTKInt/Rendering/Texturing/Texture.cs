@@ -43,7 +43,7 @@ namespace VTKInt.Textures
 			Texture tex = new Texture();
 			tex.id = bufferIndex;
 			tex.Name = name;
-			//tex.Type = ?
+			tex.Type = VTKInt.Materials.Material.TexType.lightTexture;
 			RegisterTexture(tex);
 		}
 

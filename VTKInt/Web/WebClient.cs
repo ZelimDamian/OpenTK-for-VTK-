@@ -14,7 +14,14 @@ namespace VTKInt.Web
 		{
 			WebRequest request = WebRequest.Create(URL + "?message=" + message);
 
-			request.GetResponse();
+			try
+			{
+				request.GetResponse();
+			}
+			catch(Exception)
+			{
+				Console.WriteLine("Unable to connect to " + URL + " to send message " + message);
+			}
 		}
 
 		public static string GetString(string URL)
@@ -23,9 +30,17 @@ namespace VTKInt.Web
 
 			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-			Stream stream = response.GetResponseStream();
+			try
+			{
+				Stream stream = response.GetResponseStream();
+				return stream.ToString();
+			}
+			catch(Exception)
+			{
+				Console.WriteLine("Unable to connect to " + URL + " to get message");
+				return "";
+			}
 
-			return stream.ToString();
 		}
 	}
 }

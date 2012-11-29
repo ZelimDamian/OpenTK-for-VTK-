@@ -12,8 +12,16 @@ namespace VTKInt.Rendering
 		protected List<Component> components = new List<Component>();
 		protected Material material;
 
+		protected bool CastShadows = false;
+
+
 		public Drawable ()
 		{
+		}
+
+		public override void Render(RenderPass pass)
+		{
+			
 		}
 
 		public virtual void SetVBOs(Mesh curMesh, Shader shader)
@@ -73,18 +81,38 @@ namespace VTKInt.Rendering
 			this.material = material;
 		}
 
-		public virtual void SetUpMaterial(Materials.Material material)
+		public virtual void SetUpMaterial()
 		{
 			GL.UseProgram(material.shader.handle);
-
-			material.activateUniforms();
-
-			Vector3 lightPos = new Vector3(100.0f, 100.0f, 100.0f);
-
-			material.shader.insertUniform(Shader.Uniform.model_matrix, ref transform);
-			material.shader.insertUniform(Shader.Uniform.in_light, ref lightPos);
 			
+			material.activateUniforms();
 			material.activateTextures();
+		}
+
+		public virtual void SetUpShadowMaterial()
+		{
+			Shader shader = SceneManager.ShadowPassShader;
+			GL.UseProgram(shader.handle);
+//
+//			Vector3 eye = SceneManager.Camera.Eye;
+//			Matrix4 view = SceneManager.Camera.View;
+//			Matrix4 proj = SceneManager.Camera.Projection;
+//			Vector3 lightPos = SceneManager.Light.Eye;
+//
+//			shader.insertUniform(Shader.Uniform.in_eyepos, ref eye);
+//			shader.insertUniform(Shader.Uniform.projection_matrix, ref proj);
+//			shader.insertUniform(Shader.Uniform.modelview_matrix, ref view);
+//			shader.insertUniform(Shader.Uniform.in_light, ref lightPos);
+
+			Matrix4 lightView = SceneManager.Light.View;
+			Matrix4 lightProj = SceneManager.Light.Projection;
+
+			shader.insertUniform(Shader.Uniform.light_view, ref lightView);
+			shader.insertUniform(Shader.Uniform.light_proj, ref lightProj);
+
+			float lightFar = SceneManager.Light.Far;
+			shader.insertUniform(Shader.Uniform.in_far, ref lightFar);
+
 		}
 	}
 }
