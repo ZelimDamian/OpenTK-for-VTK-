@@ -4,7 +4,7 @@ using VTKInt.Animations;
 
 namespace VTKInt.Interface
 {
-	public class NumpadComponent : Component, IAnimatable, ITouchable
+	public class NumpadComponent : Component, ITouchable, IPressable
 	{
 		public NumpadComponent (string meshName) : base(meshName)
 		{
@@ -25,26 +25,56 @@ namespace VTKInt.Interface
 
 		public virtual void React()
 		{
-
+			Press();
 		}
+	
+		//bool pressed;
 
-		Animation animation;
-		
-		public virtual VTKObject Animated
+		public bool IsPressed
 		{
-			get { return this; }
 			set {}
+			get { return SceneManager.RunningTime < PressTime + PressDuration; }
 		}
-		
-		public virtual Animation Animation
+
+		float pressTime;
+
+		public float PressTime
 		{
-			get { return animation; }
-			set { animation = value; }
+			set { pressTime = value; }
+			get { return pressTime;  }
 		}
-		
-		public virtual bool IsAnimated
+
+		public virtual void Press()
 		{
-			get { return animation != null; }
+			if(!IsPressed)
+			{
+				AnimationManager.Add(AnimationType.Press, this, PressDuration);
+				pressTime = SceneManager.RunningTime;
+				WhenPressed();
+			}
+		}
+
+		public virtual void WhenPressed()
+		{
+
+		}
+
+		public void Release()
+		{
+
+		}
+
+		float pressDuration = 0.5f;
+
+		public float PressDuration
+		{
+			set { pressDuration = value; }
+			get { return pressDuration;  }
+		}
+
+		public override void Update ()
+		{
+			base.Update ();
 		}
 	}
 }

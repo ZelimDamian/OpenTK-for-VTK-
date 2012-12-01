@@ -78,7 +78,7 @@ void main (void)
 
  	float shadow = 0.0;
  	if (ShadowCoord.w > 0.0)
- 		shadow = shadowMapValue < shadowCoordinateWdivide.z ? 0.3 : 1.0 ;
+ 		shadow = shadowMapValue < shadowCoordinateWdivide.z ? 0.6 : 1.0 ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 

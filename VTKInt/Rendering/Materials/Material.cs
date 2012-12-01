@@ -18,6 +18,13 @@ namespace VTKInt.Materials
 		public Shader shader;
 		public Texture[] textures;
 		public string Name;
+		Vector4 color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+
+		public Vector4 Color
+		{
+			get { return color; }
+			set { color = value; }
+		}
 
 		public enum TexType
 		{
@@ -46,26 +53,6 @@ namespace VTKInt.Materials
 			shader.insertUniform(Shader.Uniform.projection_matrix, ref proj);
 			shader.insertUniform(Shader.Uniform.modelview_matrix, ref view);
 			shader.insertUniform(Shader.Uniform.in_light, ref lightPos);
-
-			Matrix4 lightView = SceneManager.Light.View;
-			Matrix4 lightProj = SceneManager.Light.Projection;
-			
-			shader.insertUniform(Shader.Uniform.light_view, ref lightView);
-			shader.insertUniform(Shader.Uniform.light_proj, ref lightProj);
-
-			// Moving from unit cube [-1,1] to [0,1]  
-			Matrix4 bias = new Matrix4(	
-			                           0.5f, 0.0f, 0.0f, 0.0f,
-			                           0.0f, 0.5f, 0.0f, 0.0f,
-			                           0.0f, 0.0f, 0.5f, 0.0f,
-			                           0.5f, 0.5f, 0.5f, 1.0f
-			                           );
-			
-			shader.insertUniform(Shader.Uniform.shadow_bias, ref bias);
-
-			float lightFar = SceneManager.Light.Far;
-			shader.insertUniform(Shader.Uniform.in_far, ref lightFar);
-
 		}
 
 		public void activateTextures()

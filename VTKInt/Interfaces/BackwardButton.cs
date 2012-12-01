@@ -12,19 +12,10 @@ namespace VTKInt.Interface
 		{
 		}
 
-		public override void Touch(Ray ray)
+		public override void WhenPressed ()
 		{
-
-		}
-
-		public override void React()
-		{
-			if(IsAnimated)
-				return;
-
-			AnimationManager.Add(AnimationManager.AnimationType.Press, this);
-
 			Numpad.Display.RemoveLastDigit();
+			base.WhenPressed ();
 		}
 	}
 }

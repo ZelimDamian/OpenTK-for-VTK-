@@ -14,6 +14,7 @@ namespace VTKInt.Rendering
 
 		protected bool CastShadows = false;
 
+		protected bool ReceiveShadows = false;
 
 		public Drawable ()
 		{
@@ -87,22 +88,41 @@ namespace VTKInt.Rendering
 			
 			material.activateUniforms();
 			material.activateTextures();
+
+			if(ReceiveShadows)
+				SetUpShadowReceiveMaterial();
 		}
 
-		public virtual void SetUpShadowMaterial()
+		public virtual void SetUpShadowReceiveMaterial()
+		{
+			
+			Matrix4 lightView = SceneManager.Light.View;
+			Matrix4 lightProj = SceneManager.Light.Projection;
+			
+			material.shader.insertUniform(Shader.Uniform.light_view, ref lightView);
+			material.shader.insertUniform(Shader.Uniform.light_proj, ref lightProj);
+			
+			// Moving from unit cube [-1,1] to [0,1]  
+			Matrix4 bias = new Matrix4(	
+			                           0.5f, 0.0f, 0.0f, 0.0f,
+			                           0.0f, 0.5f, 0.0f, 0.0f,
+			                           0.0f, 0.0f, 0.5f, 0.0f,
+			                           0.5f, 0.5f, 0.5f, 1.0f
+			                           );
+			
+			bias = lightView * lightProj * bias;
+			
+			material.shader.insertUniform(Shader.Uniform.shadow_bias, ref bias);
+			
+			float lightFar = SceneManager.Light.Far;
+			material.shader.insertUniform(Shader.Uniform.in_far, ref lightFar);
+
+		}
+
+		public virtual void SetUpShadowCastMaterial()
 		{
 			Shader shader = SceneManager.ShadowPassShader;
 			GL.UseProgram(shader.handle);
-//
-//			Vector3 eye = SceneManager.Camera.Eye;
-//			Matrix4 view = SceneManager.Camera.View;
-//			Matrix4 proj = SceneManager.Camera.Projection;
-//			Vector3 lightPos = SceneManager.Light.Eye;
-//
-//			shader.insertUniform(Shader.Uniform.in_eyepos, ref eye);
-//			shader.insertUniform(Shader.Uniform.projection_matrix, ref proj);
-//			shader.insertUniform(Shader.Uniform.modelview_matrix, ref view);
-//			shader.insertUniform(Shader.Uniform.in_light, ref lightPos);
 
 			Matrix4 lightView = SceneManager.Light.View;
 			Matrix4 lightProj = SceneManager.Light.Projection;

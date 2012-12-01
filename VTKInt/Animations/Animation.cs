@@ -4,21 +4,36 @@ using OpenTK;
 
 namespace VTKInt.Animations
 {
-	public class Animation
+	public class Animation : IEquatable<Animation>
 	{
 		public List<AnimFrame> frames = new List<AnimFrame>();
 
 		IAnimatable animatee;
 
+		public IAnimatable Animatee
+		{
+			get { return animatee; }
+			set { animatee = value; }
+		}
+
 		float length;
+
+		public float Length
+		{
+			get { return this.length; }
+			set { this.length = value; }
+		}
+
 		float startTime;
+
+		public AnimationType Type;
 
 		bool running = false;
 
 		public Animation (IAnimatable animatee, List<AnimFrame> frames, float length)
 		{
 			this.animatee = animatee;
-			animatee.Animation = this;
+			animatee.Animations.Add(this);
 			this.frames = frames;
 			this.length = length;
 		}
@@ -26,8 +41,14 @@ namespace VTKInt.Animations
 		public Animation(IAnimatable animatee, float length)
 		{
 			this.animatee = animatee; //new Animatee(animated, this);
-			animatee.Animation = this; 
+			animatee.Animations.Add(this); 
 			this.length = length;
+		}
+
+		public Animation(IAnimatable animatee)
+		{
+			this.animatee = animatee; //new Animatee(animated, this);
+			animatee.Animations.Add(this); 
 		}
 
 		public void AddFrame(AnimFrame frame)
@@ -43,12 +64,15 @@ namespace VTKInt.Animations
 
 		public virtual void Dispose()
 		{
-			animatee.Animation = null;
+			animatee.Animations.Remove(this);
 		}
 
 		public bool Finished
 		{
 			get {
+				if(!animatee.Animations.Contains(this))
+					return true;
+
 				if(running)
 					return CurrentTime >= length; 
 				else return false;
@@ -77,6 +101,21 @@ namespace VTKInt.Animations
 				if(current.IsAnimatedScale && current.IsAnimatedScale)
 					animatee.Animated.Scale = Vector3.Lerp(current.Scale, next.Scale, lerp);
 			}
+		}
+
+		public static bool Equals(Animation animA, Animation animB)
+		{
+			if(animA == null || animB == null)
+				return false;
+			return animA.Equals(animB);
+		}
+
+		public bool Equals(Animation anim)
+		{
+			if(anim == null)
+				return false;
+
+			return anim.Type == this.Type && anim.Animatee.Equals(Animatee);
 		}
 	}
 }

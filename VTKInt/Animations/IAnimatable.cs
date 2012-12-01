@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace VTKInt.Animations
 {
@@ -9,13 +10,15 @@ namespace VTKInt.Animations
 			get;
 		}
 
+		bool IsAnimatedWith(AnimationType type);
+
 		VTKObject Animated
 		{
 			get;
 			set;
 		}
 
-		Animation Animation
+		List<Animation> Animations
 		{
 			get;
 			set;

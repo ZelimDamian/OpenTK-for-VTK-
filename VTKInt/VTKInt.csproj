@@ -71,7 +71,6 @@
     <Compile Include="Interfaces\DigitComponent.cs" />
     <Compile Include="Animations\Animation.cs" />
     <Compile Include="Animations\AnimationManager.cs" />
-    <Compile Include="Animations\Animatee.cs" />
     <Compile Include="Animations\IAnimatable.cs" />
     <Compile Include="Interfaces\DigitDisplay.cs" />
     <Compile Include="Interfaces\EmblemPanel.cs" />
@@ -83,6 +82,7 @@
     <Compile Include="Rendering\Framebuffers\FramebufferCreator.cs" />
     <Compile Include="VTKInterface.cs" />
     <Compile Include="Cameras\CameraOrtho.cs" />
+    <Compile Include="Interfaces\IPressable.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Rendering\" />

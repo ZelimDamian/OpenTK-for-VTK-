@@ -29,6 +29,7 @@ namespace VTKInt.Interface
 			}
 
 			AddMaterial(MaterialLoader.GetMaterial(materialName));
+			ReceiveShadows = true;
 		}
 
 
@@ -37,9 +38,25 @@ namespace VTKInt.Interface
 		int DimX, DimZ;
 		float[] buffer1, buffer2;
 
+		public Plane Plane
+		{
+			get { return plane;}
+			set {}
+		}
+
+		public override Vector3 Position {
+			get {
+				return base.Position;
+			}
+			set {
+				plane.Point = value;
+				base.Position = value;
+			}
+		}
+
 		public void Touch(Ray ray)
 		{
-			Vector3 point = (Vector3)ray.GetIntersectionPoint(plane);
+			Vector3 point = (Vector3)ray.GetIntersectionPoint(Plane) - Position;
 
 			int x = (int)( point.X / extents.X );
 			int y = (int)( point.Z / extents.Z );
@@ -54,13 +71,67 @@ namespace VTKInt.Interface
 
 		}
 
+		public enum FieldState
+		{
+			Normal,
+			Tribune,
+			HorizonalWave
+		}
+
+		FieldState state = FieldState.Normal;
+
 		public override void Update ()
 		{
-			//SendHorizontalWave();
-
 			if(SceneManager.Window.Mouse[OpenTK.Input.MouseButton.Right])
 				Touch(SceneManager.GetMouseRay());
 
+			switch(state)
+			{
+				case FieldState.Normal: break;
+				case FieldState.Tribune: SetRowValues(0, 10.0f); break;
+				case FieldState.HorizonalWave: SendHorizontalWave(); break;
+			}
+
+			WaveUpdate();
+
+			if(SceneManager.Window.Keyboard[OpenTK.Input.Key.Number1])
+				state = FieldState.Tribune;
+			else if(SceneManager.Window.Keyboard[OpenTK.Input.Key.Number2])
+				state = FieldState.HorizonalWave;
+			else if(SceneManager.Window.Keyboard[OpenTK.Input.Key.Number3])
+				state = FieldState.Normal;
+
+			base.Update ();
+		}
+
+		int waveIndex = -1;
+
+		public void SetRowValues(int row, float value)
+		{
+			for(int i = 0; i < DimX; i ++)
+			{
+					buffer1[ row + i * DimZ ] = value;
+			}
+		}
+
+		public void SendHorizontalWave()
+		{
+			waveIndex = (int) ((Math.Sin(SceneManager.RunningTime / 1.0f) + 1.0f) / 2.0f * DimZ);
+
+			if(waveIndex < 0)
+				return;
+
+			for(int j = 0; j < DimZ; j ++)
+			{
+				if(j == waveIndex)
+				{
+					SetRowValues(j, 15.0f);
+				}
+			}
+		}
+
+		public void WaveUpdate()
+		{
 			for ( int i = 0, l = DimX * DimZ; i < l; i ++ ) {
 				
 				float x1, x2, y1, y2;
@@ -123,27 +194,6 @@ namespace VTKInt.Interface
 				Vector3 s = components[i].Scale;
 				s.Y = s.Y + ( Math.Max( 1.0f, 1.0f + buffer2[ i ] ) - s.Y ) * 0.1f;
 				components[i].Scale = s;
-			}
-
-			base.Update ();
-		}
-
-		int waveIndex = -1;
-
-		public void SendHorizontalWave()
-		{
-			waveIndex = (int) ((Math.Sin(SceneManager.RunningTime / 3.0f) + 1.0f) / 2.0f * DimZ);
-
-			if(waveIndex < 0)
-				return;
-
-			for(int i = 0; i < DimX; i ++)
-				for(int j = 0; j < DimZ; j ++)
-			{
-				if(j == waveIndex)
-				{
-					buffer1[ j + i * DimZ ] = 10.0f;
-				}
 			}
 		}
 	}

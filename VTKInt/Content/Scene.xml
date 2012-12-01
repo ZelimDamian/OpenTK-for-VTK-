@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <scene>
-	<camera eye = "0.0 0.0 -10.0" origin = "0.0 0.0 0.0" />
+	<camera eye = "-2.0 15.0 20.0" origin = "-2.0 4.0 0.0" />
+	
 	<sky mesh="Sky.obj" material="Sky.xmf" />
-	<field mesh="FieldElement.obj" material="Field.xmf" x="40" z="30" />
-	<numPad material="Digit.xmf" width="2.0" height="3.0" position = "40.0 1.0 30.0"/>
-	<emblems distanceBetween = "6.5" position = "40.0 6.0 30.0">
+	
+	<field mesh="FieldElement.obj" material="Field.xmf" x="40" z="20" position = "-40.0 -2.5 -30.0" />
+	
+	<numPad material="Digit.xmf" width="2.0" height="3.0" position = "-2.0 -15.0 0.0" orientation = "1.0 0.0 0.0 -15.0"/>
+	
+	<emblems distanceBetween = "6.5" position = "0.0 6.0 0.0">
 		<emblem mesh="VTK_Emblem.obj" material="VTK_Emblem.xmf" />
 		<emblem mesh="VTK_Emblem.obj" material="Megafon_Emblem.xmf" />
 		<emblem mesh="VTK_Emblem.obj" material="VTK_Emblem.xmf" />
 		<emblem mesh="VTK_Emblem.obj" material="Megafon_Emblem.xmf" />
 	</emblems>
+	
+	<light position = "-5.0 40.0 25.0" origin = "0.0 0.0 0.0" />
 </scene>

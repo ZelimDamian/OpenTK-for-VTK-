@@ -10,15 +10,10 @@ namespace VTKInt.Interface
 		{
 		}
 
-		public override void Touch(Ray ray)
+		public override void WhenPressed ()
 		{
-
-		}
-
-		public override void React()
-		{
-			AnimationManager.Add(AnimationManager.AnimationType.Press, this);
 			Numpad.Display.AddDigit(this.NameClean);
+			base.WhenPressed ();
 		}
 	}
 }

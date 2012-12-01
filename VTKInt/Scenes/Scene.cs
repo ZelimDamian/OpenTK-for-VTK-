@@ -150,7 +150,8 @@ namespace VTKInt
 				{
 					String meshName = "", materialName = "";
 					int x = 0, y = 0;
-					
+					Vector3 position;
+
 					while(sceneReader.MoveToNextAttribute())
 					{
 						if(sceneReader.Name == "mesh")
@@ -169,10 +170,15 @@ namespace VTKInt
 						{
 							y = int.Parse(sceneReader.Value);
 						}
+						else if(sceneReader.Name == "position")
+						{
+							position = ParseVector(sceneReader.Value);
+						}
 					}
 					
 					Field model = new Field(x, y, meshName, materialName);
-					
+					model.Position = position;
+
 					sceneReader.MoveToElement();
 					this.objects.Add(model);
 				}
@@ -182,6 +188,7 @@ namespace VTKInt
 					String materialName = "";
 					float width = 0.0f, height = 0.0f;
 					Vector3 position;
+					Quaternion orientation;
 
 					while(sceneReader.MoveToNextAttribute())
 					{
@@ -201,20 +208,45 @@ namespace VTKInt
 						{
 							position = ParseVector(sceneReader.Value);
 						}
+						else if(sceneReader.Name == "orientation")
+						{
+							orientation = ParseQuaternion(sceneReader.Value);
+						}
 					}
 
 					Numpad numpad = new Numpad(materialName, width, height);
-					numpad.Position = position;
+						numpad.Position = position;
+						numpad.Orientation = orientation;
 
 					this.objects.Add(numpad);
 
 					sceneReader.MoveToElement();
 				}
+
+				if(sceneReader.Name == "light")
+				{
+					Light light = new Light();
+
+					while(sceneReader.MoveToNextAttribute())
+					{
+						if(sceneReader.Name == "position")
+						{
+							light.Position = ParseVector(sceneReader.Value);
+						}
+						else if(sceneReader.Name == "origin")
+						{
+							light.Origin = ParseVector(sceneReader.Value);
+						}
+					}
+
+					SceneManager.Light = light;
+
+					this.objects.Add(light);
+					sceneReader.MoveToElement();
+				}
+
 				if(sceneReader.Name == "emblems" && sceneReader.HasAttributes)
 				{
-					//String materialName = "", meshName = "";
-					//float width = 0.0f, height = 0.0f;
-
 					EmblemPanel panel = new EmblemPanel();
 
 					while(sceneReader.MoveToNextAttribute())
@@ -322,6 +354,26 @@ namespace VTKInt
 //			GL.CullFace(CullFaceMode.Back);
 		}
 	}
+	
+		public class SceneTypeArgs : EventArgs
+		{
+			private string message;
+			
+			public SceneTypeArgs(string message)
+			{
+				this.message = message;
+			}
+			
+			// This is a straightforward implementation for 
+			// declaring a public field
+			public string Message
+			{
+				get
+				{
+					return message;
+				}
+			}
+	}
 
 	public static class SceneManager
 	{
@@ -352,9 +404,22 @@ namespace VTKInt
 			Camera.Aspect = (float)Window.Width / Window.Height;
 		}
 
+		public static SceneType sceneType = SceneType.Emblems;
+
+		public delegate void SceneChangeHandler(object myobj, SceneTypeArgs args);
+		public static event SceneChangeHandler OnSceneTypeChange;
+
+		public static SceneType SceneType
+		{
+			get { return sceneType; }
+			set {
+				sceneType = value;
+				OnSceneTypeChange.Invoke(new object(), new SceneTypeArgs("Scene changed"));
+			}
+		}
+
 		public static void Load()
 		{
-			Light = new Lights.Light();
 			ShadowPassShader = ShaderLoader.GetShader("Shadow.xsp");
 			fbCreator = new FramebufferCreator();
 			
@@ -363,7 +428,6 @@ namespace VTKInt
 
 			Scene.Load();
 
-			
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.Ortho(0.0, (double)Window.Width, 0.0, (double)Window.Height, -10.0, 10.0);
 			GL.MatrixMode(MatrixMode.Modelview);
@@ -378,7 +442,6 @@ namespace VTKInt
 			{
 				fbCreator.defaultFb.enable(true);
 				DrawTextureOnScreenQuad(VTKInt.Textures.TextureLoader.GetTexture("LightFramebufferColor").id, 0.0f, 1.0f);///.LightFramebuffer.ColorTexture, 0.0f);
-				//DrawTextureOnScreenQuad(SceneManager.LightFramebuffer.DepthTexture, 1.0f);
 			}
 		}
 
@@ -398,6 +461,15 @@ namespace VTKInt
 			return new Ray(Camera.Eye, Vector3.Normalize(far - near));
 		}
 
+		public static void Update()
+		{
+			if(Window.Keyboard[OpenTK.Input.Key.E])
+				sceneType = SceneType.Emblems;
+			else if(Window.Keyboard[OpenTK.Input.Key.N])
+				sceneType = SceneType.Numad;
+
+			Scene.Update();
+		}
 		
 		public static void DrawTextureOnScreenQuad(int textureId, float s, float e)
 		{
@@ -427,6 +499,12 @@ namespace VTKInt
 				GL.Vertex3((float)Window.Width * s, (float)Window.Height, 0.0f);
 			GL.End();
 		}
+	}
+
+	public enum SceneType
+	{
+		Emblems,
+		Numad
 	}
 
 	public enum RenderPass

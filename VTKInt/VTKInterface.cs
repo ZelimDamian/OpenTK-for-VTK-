@@ -51,7 +51,7 @@ namespace VTKInt
 
 		protected override void OnUpdateFrame (FrameEventArgs e)
 		{
-			SceneManager.Scene.Update();
+			SceneManager.Update();
 
 			if (Keyboard[OpenTK.Input.Key.F])
 				ToggleFullScreen();

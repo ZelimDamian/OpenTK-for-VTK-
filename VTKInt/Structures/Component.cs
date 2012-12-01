@@ -1,9 +1,11 @@
 using System;
 using OpenTK;
+using System.Collections.Generic;
+using VTKInt.Animations;
 
 namespace VTKInt.Structues
 {
-	public class Component : VTKObject
+	public class Component : VTKObject, IAnimatable
 	{
 		public Component (string meshName)
 		{
@@ -59,12 +61,41 @@ namespace VTKInt.Structues
 			}
 		}
 
+		List<Animation> animations = new List<Animation>();
+		
+		public bool IsAnimated
+		{
+			get { return animations.Count != 0; }
+		}
+		
+		public VTKObject Animated
+		{
+			get { return this; }
+			set {}
+		}
+		
+		public List<Animation> Animations
+		{
+			get { return animations; }
+			set { animations = value; }
+		}
+
 		public BoundingBox Box;
 		public Mesh Mesh;
 
 		public String NameClean
 		{
 			get { return Mesh.Name.Replace(".obj", ""); }
+		}
+
+		public bool IsAnimatedWith(AnimationType type)
+		{
+			foreach(Animation anim in Animations)
+			{
+				if(anim.Type == type)
+					return true;
+			}
+			return false;
 		}
 	}
 }

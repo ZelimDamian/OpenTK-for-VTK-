@@ -21,10 +21,9 @@ varying vec4 g_pos;
 varying vec3 v_eyedirection;
 varying vec3 v_normal;
 varying vec2 v_texture;
-varying vec3 v_tangent;
-varying vec3 v_bnormal;
+//varying vec3 v_tangent;
+//varying vec3 v_bnormal;
 varying vec3 light;
-varying float v_depth;
 varying vec4 ShadowCoord;
 varying vec3 toLight;
 
@@ -32,7 +31,7 @@ void main(void)
 {
 	g_pos = model_matrix * mesh_matrix * vec4(in_position, 1);
 	
-	ShadowCoord =  shadow_bias * light_proj * light_view * g_pos;
+	ShadowCoord =  shadow_bias * g_pos;
 	
 	gl_Position = projection_matrix * modelview_matrix * g_pos;
 	
@@ -43,6 +42,6 @@ void main(void)
 	light = - normalize(toLight);
 	
 	v_normal = normalize((vec4(in_normal, 0)).xyz);
-	v_tangent = normalize((vec4(in_tangent, 0)).xyz);
-	v_bnormal = normalize(cross(v_normal, v_tangent));
+	//v_tangent = normalize((vec4(in_tangent, 0)).xyz);
+	//v_bnormal = normalize(cross(v_normal, v_tangent));
 }

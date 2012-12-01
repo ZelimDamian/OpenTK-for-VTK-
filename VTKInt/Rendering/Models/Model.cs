@@ -5,10 +5,11 @@ using OpenTK.Graphics.OpenGL;
 using VTKInt;
 using VTKInt.Structues;
 using VTKInt.Rendering;
+using VTKInt.Animations;
 
 namespace VTKInt.Models
 {
-	public class Model : Drawable
+	public class Model : Drawable, IAnimatable
 	{
 		public Model ()
 		{
@@ -20,7 +21,7 @@ namespace VTKInt.Models
 			{
 				if(CastShadows)
 				{
-					SetUpShadowMaterial();
+					SetUpShadowCastMaterial();
 					Render(SceneManager.ShadowPassShader);
 				}
 			}
@@ -62,6 +63,35 @@ namespace VTKInt.Models
 		public override void Update ()
 		{
 			base.Update ();
+		}
+
+		List<Animation> animations = new List<Animation>();
+		
+		public bool IsAnimated
+		{
+			get { return animations.Count != 0; }
+		}
+		
+		public VTKObject Animated
+		{
+			get { return this; }
+			set {}
+		}
+
+		public bool IsAnimatedWith(AnimationType type)
+		{
+			foreach(Animation anim in Animations)
+			{
+				if(anim.Type == type)
+					return true;
+			}
+			return false;
+		}
+
+		public List<Animation> Animations
+		{
+			get { return animations; }
+			set { animations = value; }
 		}
 	}
 }

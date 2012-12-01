@@ -6,37 +6,21 @@ using VTKInt.Animations;
 
 namespace VTKInt.Interface
 {
-	public class Emblem : Model, ITouchable, IAnimatable
+	public class Emblem : Model, ITouchable
 	{
 		public Emblem ()
 		{
 			CastShadows = true;
 		}
 
-		Animation animation;
-
-		public bool IsAnimated
-		{
-			get { return animation != null; }
-		}
-
-		public VTKObject Animated
-		{
-			get { return this; }
-			set {}
-		}
-
-		public Animation Animation
-		{
-			get { return animation; }
-			set { animation = value; }
-		}
-
 		public override void Update ()
 		{
 			if(SceneManager.Window.Mouse[OpenTK.Input.MouseButton.Right])
 				Touch(SceneManager.GetMouseRay());
-			base.Update ();
+
+				AnimationManager.Add(AnimationType.Jump, this);
+
+			base.Update();
 		}
 
 		public void Touch(Ray ray)
@@ -60,10 +44,7 @@ namespace VTKInt.Interface
 
 		public void React()
 		{
-			if(!IsAnimated)
-			{
-				AnimationManager.Add(AnimationManager.AnimationType.Spin, this);
-			}
+			AnimationManager.Add(AnimationType.Spin, this);
 		}
 	}
 }

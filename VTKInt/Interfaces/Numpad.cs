@@ -49,8 +49,6 @@ namespace VTKInt.Interface
 
 				this.Scale = new Vector3(3.0f, 3.0f, 3.0f);
 
-				this.Orientation *= Quaternion.FromAxisAngle(Vector3.UnitX, 0.03f);
-
 				AddComponent(comp);
 
 				CastShadows = true;
@@ -94,11 +92,11 @@ namespace VTKInt.Interface
 			}
 		}
 
-		public override void Render ()
+		public override void Render (RenderPass pass)
 		{
-			display.Render();
+			display.Render(pass);
 
-			base.Render ();
+			base.Render (pass);
 		}
 
 		public void Touch(Ray ray)
@@ -109,9 +107,11 @@ namespace VTKInt.Interface
 			foreach(Component comp in components)
 			{
 				if(!(comp is NumpadComponent))
-					return;
+					continue;
 
-				BoundingBox curBox = new BoundingBox(comp.Box);
+				NumpadComponent numComp = comp as NumpadComponent;
+
+				BoundingBox curBox = new BoundingBox(numComp.Box);
 				
 				curBox.Center = Vector3.Transform(curBox.Center, this.Transform);
 				curBox.Scale(this.scale);
@@ -120,7 +120,7 @@ namespace VTKInt.Interface
 				
 				if(intersection != null)
 				{
-					((ITouchable)comp).React();
+					numComp.React();
 					return;
 				}
 			}
